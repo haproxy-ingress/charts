@@ -11,6 +11,8 @@ keywords:
 sources:
   - https://github.com/jcmoraisjr/haproxy-ingress
 maintainers:
+  - name: jcmoraisjr
+    email: jcmoraisjr@gmail.com
   - name: xianlubird
     email: xianlubird@gmail.com
 engine: gotpl
