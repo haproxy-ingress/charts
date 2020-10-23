@@ -1,37 +1,38 @@
-# haproxy-ingress
+# HAProxy Ingress helm chart
 
-[haproxy-ingress](https://github.com/jcmoraisjr/haproxy-ingress) is an Ingress controller that uses ConfigMap to store the global haproxy configuration, and ingress annotations to configure per-backend settings.
+[HAProxy Ingress](https://github.com/jcmoraisjr/haproxy-ingress) is an Ingress controller that uses ConfigMap to store the global haproxy configuration, and ingress annotations to configure per-backend settings.
 
 ## Introduction
 
-This chart bootstraps an haproxy-ingress deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps an HAProxy Ingress deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
   - Kubernetes 1.8+ with Beta APIs enabled
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `ingress`:
 
 ```console
-$ helm install --name my-release incubator/haproxy-ingress
+$ helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts
+$ helm install ingress haproxy-ingress/haproxy-ingress
 ```
 
-The command deploys haproxy-ingress on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+The command deploys HAProxy Ingress on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release` deployment:
+To uninstall/delete the `ingress` deployment:
 
 ```console
-$ helm delete --purge my-release
+$ helm delete ingress
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
 ## Configuration
 
-The following table lists the configurable parameters of the haproxy-ingress chart and their default values.
+The following table lists the configurable parameters of the HAProxy Ingress chart and their default values.
 
 Parameter | Description | Default
 --- | --- | ---

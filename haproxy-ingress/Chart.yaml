@@ -4,7 +4,7 @@ version: 0.0.27
 appVersion: 0.7.2
 home: https://github.com/jcmoraisjr/haproxy-ingress
 description: Ingress controller implementation for haproxy loadbalancer.
-icon: http://www.haproxy.org/img/HAProxyCommunityEdition_60px.png
+icon: https://haproxy-ingress.github.io/favicons/favicon-256.png
 keywords:
   - ingress
   - haproxy
