@@ -19,4 +19,4 @@ subjects:
   - apiGroup: rbac.authorization.k8s.io
     kind: User
     name: {{ include "haproxy-ingress.fullname" . }}
-{{- end -}}
+{{- end }}

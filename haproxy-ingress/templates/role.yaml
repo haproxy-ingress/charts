@@ -36,5 +36,5 @@ rules:
       - {{ include "haproxy-ingress.fullname" . }}
     verbs:
       - use
-{{- end -}}
-{{- end -}}
+{{- end }}
+{{- end }}

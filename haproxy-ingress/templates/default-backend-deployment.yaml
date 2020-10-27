@@ -1,4 +1,4 @@
-{{- if .Values.defaultBackend.enabled }}
+{{- if .Values.defaultBackend.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

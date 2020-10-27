@@ -1,4 +1,4 @@
-{{ if eq .Values.controller.kind "Deployment" -}}
+{{- if eq .Values.controller.kind "Deployment" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/controller-template.yaml") . | sha256sum }}
 {{- end }}
       {{- if .Values.controller.podAnnotations }}
-{{ toYaml .Values.controller.podAnnotations | indent 8}}
+{{ toYaml .Values.controller.podAnnotations | indent 8 }}
       {{- end }}
       labels:
         app: {{ include "haproxy-ingress.labels.app.controller" . }}

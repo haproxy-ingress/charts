@@ -1,5 +1,4 @@
----
-{{- if .Values.controller.tcp }}
+{{- if .Values.controller.tcp -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

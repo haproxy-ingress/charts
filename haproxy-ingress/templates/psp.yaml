@@ -1,4 +1,4 @@
-{{ if .Values.rbac.security.enable -}}
+{{- if .Values.rbac.security.enable -}}
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
@@ -39,4 +39,4 @@ spec:
   allowedHostPaths:
     - pathPrefix: /etc/haproxy/template
       readOnly: false
-{{ end -}}
+{{- end }}

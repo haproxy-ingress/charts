@@ -55,4 +55,4 @@ rules:
       - ingresses/status
     verbs:
       - update
-{{- end -}}
+{{- end }}
