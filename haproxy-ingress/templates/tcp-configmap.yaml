@@ -4,12 +4,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
+    app: {{ include "haproxy-ingress.name" . }}
+    chart: {{ include "haproxy-ingress.chart" . }}
     component: "{{ .Values.controller.name }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.controller.fullname" . }}-tcp
+  name: {{ include "haproxy-ingress.controller.fullname" . }}-tcp
   namespace: {{ .Release.Namespace }}
 data:
 {{- range $key, $value := .Values.controller.tcp }}

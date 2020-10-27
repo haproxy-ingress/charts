@@ -2,10 +2,10 @@
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "haproxy-ingress.fullname" . }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
+    app: {{ include "haproxy-ingress.name" . }}
+    chart: {{ include "haproxy-ingress.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:

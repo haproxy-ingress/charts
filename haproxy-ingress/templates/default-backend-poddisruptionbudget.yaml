@@ -2,16 +2,16 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   labels:
-    app: {{ template "haproxy-ingress.labels.app.default-backend" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
+    app: {{ include "haproxy-ingress.labels.app.default-backend" . }}
+    chart: {{ include "haproxy-ingress.chart" . }}
     component: "{{ .Values.defaultBackend.name }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.defaultBackend.fullname" . }}
+  name: {{ include "haproxy-ingress.defaultBackend.fullname" . }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "haproxy-ingress.labels.app.default-backend" . }}
+      app: {{ include "haproxy-ingress.labels.app.default-backend" . }}
       release: {{ .Release.Name }}
       component: "{{ .Values.defaultBackend.name }}"
   minAvailable: {{ .Values.defaultBackend.minAvailable }}
