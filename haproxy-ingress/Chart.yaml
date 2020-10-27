@@ -1,18 +1,19 @@
-apiVersion: v1
+apiVersion: v2
 name: haproxy-ingress
+description: Ingress controller for HAProxy loadbalancer
+type: application
 version: 0.0.27
 appVersion: 0.7.2
-home: https://github.com/jcmoraisjr/haproxy-ingress
-description: Ingress controller implementation for haproxy loadbalancer.
 icon: https://haproxy-ingress.github.io/favicons/favicon-256.png
 keywords:
-  - ingress
   - haproxy
+  - ingress
+home: https://haproxy-ingress.github.io
 sources:
   - https://github.com/jcmoraisjr/haproxy-ingress
+  - https://github.com/haproxy-ingress/charts
 maintainers:
   - name: jcmoraisjr
     email: jcmoraisjr@gmail.com
   - name: xianlubird
     email: xianlubird@gmail.com
-engine: gotpl

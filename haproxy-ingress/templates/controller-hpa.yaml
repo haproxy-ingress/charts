@@ -3,18 +3,14 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    app: {{ include "haproxy-ingress.name" . }}
-    chart: {{ include "haproxy-ingress.chart" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ include "haproxy-ingress.controller.fullname" . }}
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta2
     kind: Deployment
-    name: {{ include "haproxy-ingress.controller.fullname" . }}
+    name: {{ include "haproxy-ingress.fullname" . }}
   minReplicas: {{ .Values.controller.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.controller.autoscaling.maxReplicas }}
   metrics:

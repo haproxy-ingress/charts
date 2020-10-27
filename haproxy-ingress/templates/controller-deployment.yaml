@@ -3,12 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ include "haproxy-ingress.labels.app.controller" . }}
-    chart: {{ include "haproxy-ingress.chart" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ include "haproxy-ingress.controller.fullname" . }}
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
 {{- if not .Values.controller.autoscaling.enabled }}
@@ -20,9 +16,7 @@ spec:
   minReadySeconds: {{ .Values.controller.minReadySeconds }}
   selector:
     matchLabels:
-      app: {{ include "haproxy-ingress.labels.app.controller" . }}
-      component: "{{ .Values.controller.name }}"
-      release: {{ .Release.Name }}
+      {{- include "haproxy-ingress.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -33,9 +27,7 @@ spec:
 {{ toYaml .Values.controller.podAnnotations | indent 8 }}
       {{- end }}
       labels:
-        app: {{ include "haproxy-ingress.labels.app.controller" . }}
-        component: "{{ .Values.controller.name }}"
-        release: {{ .Release.Name }}
+        {{- include "haproxy-ingress.selectorLabels" . | nindent 8 }}
         {{- if .Values.controller.podLabels }}
 {{ toYaml .Values.controller.podLabels | indent 8 }}
         {{- end }}
@@ -54,11 +46,11 @@ spec:
           image:  "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
           imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
           args:
-            - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.controller.fullname" . }}
+            - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}
             - --ingress-class={{ .Values.controller.ingressClass }}
             - --sort-backends
           {{- if .Values.controller.tcp }}
-            - --tcp-services-configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.controller.fullname" . }}-tcp
+            - --tcp-services-configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}-tcp
           {{- end }}
             - --default-backend-service={{ if .Values.defaultBackend.enabled }}{{ .Release.Namespace }}/{{ include "haproxy-ingress.defaultBackend.fullname" . }}{{ else }}{{ .Values.controller.defaultBackendService }}{{ end }}
           {{- range $key, $value := .Values.controller.extraArgs }}
@@ -169,7 +161,7 @@ spec:
       volumes:
         - name: haproxy-template
           configMap:
-            name: {{ include "haproxy-ingress.controller.fullname" . }}-template
+            name: {{ include "haproxy-ingress.fullname" . }}-template
 {{- end }}
       terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
       dnsPolicy: {{ .Values.controller.dnsPolicy }}

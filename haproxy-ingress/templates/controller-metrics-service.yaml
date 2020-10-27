@@ -7,12 +7,8 @@ metadata:
 {{ toYaml .Values.controller.metrics.service.annotations | indent 4 }}
 {{- end }}
   labels:
-    app: {{ include "haproxy-ingress.labels.app.controller" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: "{{ .Values.controller.name }}"
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-  name: {{ include "haproxy-ingress.controller.fullname" . }}-metrics
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}-metrics
   namespace: {{ .Release.Namespace }}
 spec:
 {{- if .Values.controller.metrics.service.clusterIP }}
@@ -34,8 +30,6 @@ spec:
       port: {{ .Values.controller.metrics.service.servicePort }}
       targetPort: metrics
   selector:
-    app: {{ include "haproxy-ingress.labels.app.controller" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
+    {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.metrics.service.type }}"
 {{- end }}

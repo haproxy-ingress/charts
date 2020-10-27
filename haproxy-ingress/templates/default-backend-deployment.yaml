@@ -3,20 +3,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ include "haproxy-ingress.labels.app.default-backend" . }}
-    chart: {{ include "haproxy-ingress.chart" . }}
-    component: "{{ .Values.defaultBackend.name }}"
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+    {{- include "haproxy-ingress.defaultBackend.labels" . | nindent 4 }}
   name: {{ include "haproxy-ingress.defaultBackend.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.defaultBackend.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "haproxy-ingress.labels.app.default-backend" . }}
-      component: "{{ .Values.defaultBackend.name }}"
-      release: {{ .Release.Name }}
+      {{- include "haproxy-ingress.defaultBackend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- if .Values.defaultBackend.podAnnotations }}
@@ -24,9 +18,7 @@ spec:
 {{ toYaml .Values.defaultBackend.podAnnotations | indent 8 }}
     {{- end }}
       labels:
-        app: {{ include "haproxy-ingress.labels.app.default-backend" . }}
-        component: "{{ .Values.defaultBackend.name }}"
-        release: {{ .Release.Name }}
+        {{- include "haproxy-ingress.defaultBackend.selectorLabels" . | nindent 8 }}
         {{- if .Values.defaultBackend.podLabels }}
 {{ toYaml .Values.defaultBackend.podLabels | indent 8 }}
         {{- end }}

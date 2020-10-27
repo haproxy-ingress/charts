@@ -12,11 +12,13 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
+nameOverride: ""
+fullnameOverride: ""
+
 controller:
-  name: controller
   image:
     repository: quay.io/jcmoraisjr/haproxy-ingress
-    tag: "v0.7.2"
+    tag: v0.7.2
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
@@ -164,10 +166,10 @@ controller:
 
   autoscaling:
     enabled: false
-  #  minReplicas: 1
-  #  maxReplicas: 11
-  #  targetCPUUtilizationPercentage: 50
-  #  targetMemoryUtilizationPercentage: 50
+    #  minReplicas: 1
+    #  maxReplicas: 11
+    #  targetCPUUtilizationPercentage: 50
+    #  targetMemoryUtilizationPercentage: 50
     customMetrics: []
 
   ## Node tolerations for server scheduling to nodes with taints

@@ -6,15 +6,11 @@ metadata:
 {{ toYaml .Values.controller.service.annotations | indent 4 }}
 {{- end }}
   labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
 {{- if .Values.controller.service.labels }}
 {{ toYaml .Values.controller.service.labels | indent 4 }}
 {{- end }}
-    app: {{ include "haproxy-ingress.labels.app.controller" . }}
-    chart: {{ include "haproxy-ingress.chart" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ include "haproxy-ingress.controller.fullname" . }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
 {{- if .Values.controller.service.clusterIP }}
@@ -65,7 +61,5 @@ spec:
       targetPort: "{{ tpl $key $ }}-tcp"
 {{- end }}
   selector:
-    app: {{ include "haproxy-ingress.labels.app.controller" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
+    {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.service.type }}"

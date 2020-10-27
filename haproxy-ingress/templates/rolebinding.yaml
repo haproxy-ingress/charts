@@ -3,10 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   labels:
-    app: {{ include "haproxy-ingress.name" . }}
-    chart: {{ include "haproxy-ingress.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
   name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
