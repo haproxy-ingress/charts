@@ -7,22 +7,49 @@
 This chart bootstraps an HAProxy Ingress deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
-  - Kubernetes 1.8+ with Beta APIs enabled
+
+* Helm 3 installed, see installation instructions [here](https://helm.sh/docs/intro/install/)
+* Kubernetes 1.8+ with Beta APIs enabled
 
 ## Installing the Chart
 
-To install the chart with the release name `ingress`:
+To install the latest stable version with the release name `ingress` in the current namespace and using default configurations:
 
 ```console
 $ helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts
 $ helm install ingress haproxy-ingress/haproxy-ingress
 ```
 
-The command deploys HAProxy Ingress on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+The [configuration](#configuration) section lists the parameters that can be configured during installation.
+
+Installation tips:
+
+* All resources will be created in the current namespace. Add `--create-namespace --namespace=<ns>` command-line options to install HAProxy Ingress in another one
+* The default configuration installs HAProxy Ingress as a deployment, add `--set controller.kind=DaemonSet` command-line option to install as a DaemonSet
+* The default service type is `LoadBalacer`, add `--set controller.service.type=<type>` command-line option to change to `ClusterIP` or `NodePort`
+* If the release name is `haproxy-ingress`, the resource names will not add the release name prefix and will have a shorter name
+* Chart versions are in sync with minor HAProxy Ingress versions, so `--version '~0.8'` command-line option will install the latest `v0.8` release of HAProxy Ingress. See available chart and controller versions with `helm search repo haproxy-ingress -l`
+* Non stable versions available, add `--devel` command-line option to enable them
+
+## Upgrading to a new Chart version
+
+To upgrade the release `ingress` to the latest stable version:
+
+```console
+$ helm repo update
+$ helm upgrade ingress haproxy-ingress/haproxy-ingress
+```
+
+**Upgrade warning:** charts since 0.8.1 changed name patterns and this should break upgrades. It is recommended to uninstall and reinstall the HAProxy Ingress chart - and always test upgrades on a staging environment.
+
+Upgrade tips:
+
+* helm preserve the installation options, eg a `--set controller.service.type=ClusterIP` used when installing the chart doesn't need to be configured when upgrading it
+* `--version` and `--devel` also available to point to an older version or a non stable one
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `ingress` deployment:
+To uninstall/delete the `ingress` release:
 
 ```console
 $ helm delete ingress
