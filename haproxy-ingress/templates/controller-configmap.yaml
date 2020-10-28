@@ -12,5 +12,5 @@ data:
   syslog-endpoint: "localhost:514"
 {{- end }}
 {{- if .Values.controller.config }}
-{{ toYaml .Values.controller.config | indent 2 }}
+  {{- toYaml .Values.controller.config | nindent 2 }}
 {{- end }}

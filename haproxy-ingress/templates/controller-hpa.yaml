@@ -27,6 +27,6 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.controller.autoscaling.targetMemoryUtilizationPercentage }}
 {{- if .Values.controller.autoscaling.customMetrics }}
-{{ toYaml .Values.controller.autoscaling.customMetrics | indent 4 }}
+    {{- toYaml .Values.controller.autoscaling.customMetrics | nindent 4 }}
 {{- end }}
 {{- end }}
