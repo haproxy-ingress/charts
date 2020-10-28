@@ -39,6 +39,15 @@ rules:
       - get
       - list
       - watch
+{{- if .Values.rbac.secret.write }}
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - update
+{{- end }}
   - apiGroups:
       - ""
     resources:
