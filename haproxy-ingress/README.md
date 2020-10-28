@@ -71,12 +71,12 @@ Parameter | Description | Default
 `controller.podAffinity` | Add affinity to the controller pods to control scheduling | `{}`
 `controller.priorityClassName` | Priority Class to be used | ``
 `controller.securityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
-`controller.config` | additional haproxy-ingress [ConfigMap entries](https://github.com/jcmoraisjr/haproxy-ingress/blob/v0.6/README.md#configmap) | `{}`
+`controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
 `controller.dnsPolicy` | Optionally change this to ClusterFirstWithHostNet in case you have 'hostNetwork: true' | `ClusterFirst`
 `controller.terminationGracePeriodSeconds` | How much to wait before terminating a pod (in seconds) | `60`
 `controller.kind` | Type of deployment, DaemonSet or Deployment | `Deployment`
-`controller.tcp` | TCP [service ConfigMap](https://github.com/jcmoraisjr/haproxy-ingress/blob/v0.6/README.md#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`
+`controller.tcp` | TCP [service ConfigMap](https://haproxy-ingress.github.io/docs/configuration/command-line/#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`
 `controller.enableStaticPorts` | Set to `false` to only rely on ports from `controller.tcp` | `true`
 `controller.daemonset.useHostPort` | Set to true to use host ports 80 and 443 | `false`
 `controller.daemonset.hostPorts.http` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for http | `"80"`
@@ -101,7 +101,7 @@ Parameter | Description | Default
 `controller.service.annotations` | annotations for controller service | `{}`
 `controller.service.labels` | labels for controller service | `{}`
 `controller.service.clusterIP` | internal controller cluster service IP | `nil`
-`controller.service.externalTrafficPolicy` | If `controller.service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable [source IP preservation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typenodeport) | `Local`
+`controller.service.externalTrafficPolicy` | If `controller.service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable [source IP preservation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) | `Local`
 `controller.service.externalIPs` | list of IP addresses at which the controller services are available | `[]`
 `controller.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.service.loadBalancerSourceRanges` |  | `[]`
