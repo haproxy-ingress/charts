@@ -46,7 +46,8 @@ controller:
   # custom haproxy template
   template: ""
 
-  ## Required only if defaultBackend.enabled = false
+  ## A manually deployed default backend service
+  ## Ignored if defaultBackend.enabled = true
   ## Must be <namespace>/<service_name>
   ##
   defaultBackendService: ""
@@ -303,11 +304,9 @@ controller:
     #    cpu: 100m
     #    memory: 32Mi
 
-# Default 404 backend
+# Custom default 404 backend
 defaultBackend:
-  ## If false, controller.defaultBackendService must be provided
-  ##
-  enabled: true
+  enabled: false
 
   name: default-backend
   image:

@@ -76,7 +76,7 @@ Parameter | Description | Default
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
 `controller.extraEnv` | extra environment variables for the haproxy-ingress-controller | `{}`
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
-`controller.defaultBackendService` | backend service if defualtBackend.enabled==false | `""`
+`controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
 `controller.healthzPort` | The haproxy health check (monitoring) port | `10253`
 `controller.livenessProbe.path` | The liveness probe path | `/healthz`
@@ -162,7 +162,7 @@ Parameter | Description | Default
 `controller.logs.image.tag` | access-logs image tag | `v0.10.0`
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
-`defaultBackend.enabled` | whether to use the default backend component | `true`
+`defaultBackend.enabled` | whether to use the default backend component | `false`
 `defaultBackend.name` | name of the default backend component | `default-backend`
 `defaultBackend.image.repository` | default backend container image repository | `gcr.io/google_containers/defaultbackend`
 `defaultBackend.image.tag` | default backend container image repository tag | `1.0`

@@ -33,7 +33,9 @@ spec:
 {{- if .Values.controller.tcp }}
         - --tcp-services-configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}-tcp
 {{- end }}
+{{- if or .Values.defaultBackend.enabled .Values.controller.defaultBackendService }}
         - --default-backend-service={{ if .Values.defaultBackend.enabled }}{{ .Release.Namespace }}/{{ include "haproxy-ingress.defaultBackend.fullname" . }}{{ else }}{{ .Values.controller.defaultBackendService }}{{ end }}
+{{- end }}
 {{- range $key, $value := .Values.controller.extraArgs }}
   {{- if $value }}
         - --{{ $key }}={{ $value }}
