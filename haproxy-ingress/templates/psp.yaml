@@ -1,18 +1,15 @@
-{{ if .Values.rbac.security.enable -}}
+{{- if .Values.rbac.security.enable -}}
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "haproxy-ingress.fullname" . }}
-  labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
     apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'
     seccomp.security.alpha.kubernetes.io/defaultProfileName:  'docker/default'
     apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
 spec:
   privileged: true
   allowPrivilegeEscalation: true
@@ -39,4 +36,4 @@ spec:
   allowedHostPaths:
     - pathPrefix: /etc/haproxy/template
       readOnly: false
-{{ end -}}
+{{- end }}

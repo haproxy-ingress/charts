@@ -3,11 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.fullname" . }}
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
@@ -33,8 +30,8 @@ rules:
     resources:
       - podsecuritypolicies
     resourceNames:
-      - {{ template "haproxy-ingress.fullname" . }}
+      - {{ include "haproxy-ingress.fullname" . }}
     verbs:
       - use
-{{- end -}}
-{{- end -}}
+{{- end }}
+{{- end }}

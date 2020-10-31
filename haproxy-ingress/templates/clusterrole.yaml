@@ -3,11 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.fullname" . }}
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
 rules:
   - apiGroups:
       - ""
@@ -55,4 +52,4 @@ rules:
       - ingresses/status
     verbs:
       - update
-{{- end -}}
+{{- end }}

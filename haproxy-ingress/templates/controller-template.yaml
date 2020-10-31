@@ -3,12 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ template "haproxy-ingress.name" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.controller.fullname" . }}-template
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}-template
   namespace: {{ .Release.Namespace }}
 data:
   haproxy.tmpl: |-

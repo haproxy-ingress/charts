@@ -6,15 +6,11 @@ metadata:
 {{ toYaml .Values.controller.service.annotations | indent 4 }}
 {{- end }}
   labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
 {{- if .Values.controller.service.labels }}
 {{ toYaml .Values.controller.service.labels | indent 4 }}
 {{- end }}
-    app: {{ template "haproxy-ingress.labels.app.controller" . }}
-    chart: {{ template "haproxy-ingress.chart" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  name: {{ template "haproxy-ingress.controller.fullname" . }}
+  name: {{ include "haproxy-ingress.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
 {{- if .Values.controller.service.clusterIP }}
@@ -38,34 +34,32 @@ spec:
   healthCheckNodePort: {{ .Values.controller.service.healthCheckNodePort }}
 {{- end }}
   ports:
-  {{- if .Values.controller.enableStaticPorts }}
+{{- if .Values.controller.enableStaticPorts }}
   {{- range .Values.controller.service.httpPorts }}
     - name: "http-{{ .port }}"
       port: {{ .port }}
       protocol: TCP
       targetPort: {{ .targetPort }}
-      {{- if (not (empty .nodePort)) }}
+    {{- if (not (empty .nodePort)) }}
       nodePort: {{ .nodePort }}
-      {{- end }}
+    {{- end }}
   {{- end }}
   {{- range .Values.controller.service.httpsPorts }}
     - name: "https-{{ .port }}"
       port: {{ .port }}
       protocol: TCP
       targetPort: {{ .targetPort }}
-      {{- if (not (empty .nodePort)) }}
+    {{- if (not (empty .nodePort)) }}
       nodePort: {{ .nodePort }}
-      {{- end }}
+    {{- end }}
   {{- end }}
-  {{- end }}
-  {{- range $key, $value := .Values.controller.tcp }}
+{{- end }}
+{{- range $key, $value := .Values.controller.tcp }}
     - name: "{{ tpl $key $ }}-tcp"
       port: {{ tpl $key $ }}
       protocol: TCP
       targetPort: "{{ tpl $key $ }}-tcp"
-  {{- end }}
+{{- end }}
   selector:
-    app: {{ template "haproxy-ingress.labels.app.controller" . }}
-    component: "{{ .Values.controller.name }}"
-    release: {{ .Release.Name }}
+    {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.service.type }}"
