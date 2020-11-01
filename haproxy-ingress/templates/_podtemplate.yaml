@@ -115,7 +115,7 @@ spec:
 {{- if .Values.controller.template }}
       volumeMounts:
         - name: haproxy-template
-          mountPath: /etc/haproxy/template
+          mountPath: /etc/templates/haproxy
 {{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}

@@ -34,6 +34,6 @@ spec:
   fsGroup:
     rule: 'RunAsAny'
   allowedHostPaths:
-    - pathPrefix: /etc/haproxy/template
+    - pathPrefix: /etc/templates/haproxy
       readOnly: false
 {{- end }}
