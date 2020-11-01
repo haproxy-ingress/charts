@@ -147,7 +147,7 @@ Parameter | Description | Default
 `controller.stats.service.type` | type of controller service to create | `ClusterIP`
 `controller.metrics.enabled` | If `controller.stats.enabled = true` and `controller.metrics.enabled = true`, Prometheus metrics will be exported |  `false`
 `controller.metrics.image.repository` | prometheus-exporter image repository | `quay.io/prometheus/haproxy-exporter`
-`controller.metrics.image.tag` | prometheus-exporter image tag | `v0.10.0`
+`controller.metrics.image.tag` | prometheus-exporter image tag | `v0.11.0`
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`
 `controller.metrics.extraArgs` | Extra arguments to the haproxy_exporter |  `{}`
 `controller.metrics.resources` | prometheus-exporter container resource requests & limits |  `{}`
