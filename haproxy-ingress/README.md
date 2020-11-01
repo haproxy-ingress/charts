@@ -155,11 +155,11 @@ Parameter | Description | Default
 `controller.metrics.service.externalIPs` | list of IP addresses at which the metrics service is available | `[]`
 `controller.metrics.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.metrics.service.loadBalancerSourceRanges` |  | `[]`
-`controller.metrics.service.servicePort` | the port number exposed by the metrics service | `1936`
+`controller.metrics.service.servicePort` | the port number exposed by the metrics service | `9101`
 `controller.metrics.service.type` | type of controller service to create | `ClusterIP`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
-`controller.logs.image.repository` | access-logs container image repository | `quay.io/prometheus/haproxy-exporter`
-`controller.logs.image.tag` | access-logs image tag | `v0.10.0`
+`controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`
+`controller.logs.image.tag` | access-logs image tag | `latest`
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
 `defaultBackend.enabled` | whether to use the default backend component | `false`
