@@ -248,7 +248,7 @@ controller:
     # (scrapes the stats port and exports metrics to prometheus)
     image:
       repository: quay.io/prometheus/haproxy-exporter
-      tag: "v0.10.0"
+      tag: "v0.11.0"
       pullPolicy: IfNotPresent
 
     ## Additional command line arguments to pass to haproxy_exporter
