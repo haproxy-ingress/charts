@@ -18,9 +18,28 @@ spec:
     {{- toYaml .Values.controller.podAffinity | nindent 4 }}
 {{- end }}
   serviceAccountName: {{ include "haproxy-ingress.serviceAccountName" . }}
-{{- if .Values.controller.initContainers }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.initContainers }}
   initContainers:
+{{- if .Values.controller.haproxy.enabled }}
+    - name: haproxy-ingress-init
+      image:  "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
+      args:
+        - --init
+      resources:
+        limits:
+          cpu: 10m
+          memory: 32Mi
+        requests:
+          cpu: 10m
+          memory: 32Mi
+      volumeMounts:
+        - mountPath: /etc/haproxy
+          name: etc
+{{- end }}
+{{- if .Values.controller.initContainers }}
     {{- toYaml .Values.controller.initContainers | nindent 4 }}
+{{- end }}
 {{- end }}
   containers:
     - name: haproxy-ingress
@@ -29,6 +48,9 @@ spec:
       args:
         - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}
         - --ingress-class={{ .Values.controller.ingressClass }}
+{{- if .Values.controller.haproxy.enabled }}
+        - --master-socket=/var/run/haproxy/master.sock
+{{- end }}
         - --sort-backends
 {{- if .Values.controller.tcp }}
         - --tcp-services-configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}-tcp
@@ -43,63 +65,10 @@ spec:
         - --{{ $key }}
   {{- end }}
 {{- end }}
-      ports:
-{{- if .Values.controller.enableStaticPorts }}
-        - name: http
-          containerPort: 80
-  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
-          hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
-  {{- end }}
-        - name: https
-          containerPort: 443
-  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
-          hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
-  {{- end }}
+{{- if not .Values.controller.haproxy.enabled }}
+      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
+      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
 {{- end }}
-{{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
-        - name: metrics
-          containerPort: {{ .Values.controller.metrics.port }}
-          protocol: TCP
-{{- end }}
-{{- if .Values.controller.stats.enabled }}
-        - name: stats
-          containerPort: {{ .Values.controller.stats.port }}
-          protocol: TCP
-{{- end }}
-        - name: healthz
-          containerPort: {{ .Values.controller.healthzPort }}
-{{- range $key, $value := .Values.controller.tcp }}
-        - name: "{{ $key }}-tcp"
-          containerPort: {{ $key }}
-          protocol: TCP
-  {{- if and (eq $.Values.controller.kind "DaemonSet") $.Values.controller.daemonset.useHostPort }}
-    {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
-      {{- if eq $key $p }}
-          hostPort: {{ $key }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
-      livenessProbe:
-        httpGet:
-          path: {{ .Values.controller.livenessProbe.path | quote }}
-          port: {{ .Values.controller.livenessProbe.port }}
-          scheme: HTTP
-        initialDelaySeconds: {{ .Values.controller.livenessProbe.initialDelaySeconds }}
-        periodSeconds: {{ .Values.controller.livenessProbe.periodSeconds }}
-        timeoutSeconds: {{ .Values.controller.livenessProbe.timeoutSeconds }}
-        successThreshold: {{ .Values.controller.livenessProbe.successThreshold }}
-        failureThreshold: {{ .Values.controller.livenessProbe.failureThreshold }}
-      readinessProbe:
-        httpGet:
-          path: {{ .Values.controller.readinessProbe.path | quote }}
-          port: {{ .Values.controller.readinessProbe.port }}
-          scheme: HTTP
-        initialDelaySeconds: {{ .Values.controller.readinessProbe.initialDelaySeconds }}
-        periodSeconds: {{ .Values.controller.readinessProbe.periodSeconds }}
-        timeoutSeconds: {{ .Values.controller.readinessProbe.timeoutSeconds }}
-        successThreshold: {{ .Values.controller.readinessProbe.successThreshold }}
-        failureThreshold: {{ .Values.controller.readinessProbe.failureThreshold }}
       env:
         - name: POD_NAME
           valueFrom:
@@ -112,13 +81,52 @@ spec:
 {{- if .Values.controller.extraEnvs }}
         {{- toYaml .Values.controller.extraEnvs | nindent 8 }}
 {{- end }}
-{{- if .Values.controller.template }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template }}
       volumeMounts:
+{{- if .Values.controller.haproxy.enabled }}
+        - mountPath: /etc/haproxy
+          name: etc
+        - mountPath: /var/lib/haproxy
+          name: lib
+        - mountPath: /var/run/haproxy
+          name: run
+{{- end }}
+{{- if .Values.controller.template }}
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
 {{- end }}
+{{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}
+{{- if .Values.controller.haproxy.enabled }}
+    - name: haproxy
+      image: "{{ .Values.controller.haproxy.image.repository }}:{{ .Values.controller.haproxy.image.tag }}"
+      imagePullPolicy: "{{ .Values.controller.haproxy.image.pullPolicy }}"
+      args:
+        - -W
+        - -S
+        - /var/run/haproxy/master.sock,mode,600
+        - -f
+        - /etc/haproxy
+  {{- range $key, $value := .Values.controller.haproxy.extraArgs }}
+    {{- if $value }}
+        - --{{ $key }}={{ $value }}
+    {{- else }}
+        - --{{ $key }}
+    {{- end }}
+  {{- end }}
+      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
+      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
+      resources:
+        {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
+      volumeMounts:
+        - mountPath: /etc/haproxy
+          name: etc
+        - mountPath: /var/lib/haproxy
+          name: lib
+        - mountPath: /var/run/haproxy
+          name: run
+{{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
       image:  "{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
@@ -159,11 +167,21 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if .Values.controller.template }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template }}
   volumes:
+{{- if .Values.controller.haproxy.enabled }}
+    - name: etc
+      emptyDir: {}
+    - name: lib
+      emptyDir: {}
+    - name: run
+      emptyDir: {}
+{{- end }}
+{{- if .Values.controller.template }}
     - name: haproxy-template
       configMap:
         name: {{ include "haproxy-ingress.fullname" . }}-template
+{{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
   dnsPolicy: {{ .Values.controller.dnsPolicy }}
@@ -187,4 +205,67 @@ spec:
   securityContext:
     {{- toYaml .Values.controller.securityContext | nindent 4 }}
 {{- end }}
+{{- end }}
+
+{{- define "haproxy-ingress.controller.ports" -}}
+ports:
+{{- if .Values.controller.enableStaticPorts }}
+  - name: http
+    containerPort: 80
+  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
+    hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
+  {{- end }}
+  - name: https
+    containerPort: 443
+  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
+    hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
+  {{- end }}
+{{- end }}
+{{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
+  - name: metrics
+    containerPort: {{ .Values.controller.metrics.port }}
+    protocol: TCP
+{{- end }}
+{{- if .Values.controller.stats.enabled }}
+  - name: stats
+    containerPort: {{ .Values.controller.stats.port }}
+    protocol: TCP
+{{- end }}
+  - name: healthz
+    containerPort: {{ .Values.controller.healthzPort }}
+{{- range $key, $value := .Values.controller.tcp }}
+  - name: "{{ $key }}-tcp"
+    containerPort: {{ $key }}
+    protocol: TCP
+  {{- if and (eq $.Values.controller.kind "DaemonSet") $.Values.controller.daemonset.useHostPort }}
+    {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
+      {{- if eq $key $p }}
+    hostPort: {{ $key }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "haproxy-ingress.controller.probes" -}}
+livenessProbe:
+  httpGet:
+    path: {{ .Values.controller.livenessProbe.path | quote }}
+    port: {{ .Values.controller.livenessProbe.port }}
+    scheme: HTTP
+  initialDelaySeconds: {{ .Values.controller.livenessProbe.initialDelaySeconds }}
+  periodSeconds: {{ .Values.controller.livenessProbe.periodSeconds }}
+  timeoutSeconds: {{ .Values.controller.livenessProbe.timeoutSeconds }}
+  successThreshold: {{ .Values.controller.livenessProbe.successThreshold }}
+  failureThreshold: {{ .Values.controller.livenessProbe.failureThreshold }}
+readinessProbe:
+  httpGet:
+    path: {{ .Values.controller.readinessProbe.path | quote }}
+    port: {{ .Values.controller.readinessProbe.port }}
+    scheme: HTTP
+  initialDelaySeconds: {{ .Values.controller.readinessProbe.initialDelaySeconds }}
+  periodSeconds: {{ .Values.controller.readinessProbe.periodSeconds }}
+  timeoutSeconds: {{ .Values.controller.readinessProbe.timeoutSeconds }}
+  successThreshold: {{ .Values.controller.readinessProbe.successThreshold }}
+  failureThreshold: {{ .Values.controller.readinessProbe.failureThreshold }}
 {{- end }}

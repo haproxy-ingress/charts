@@ -222,6 +222,27 @@ controller:
 
     type: LoadBalancer
 
+  ## If controller.haproxy.enabled = true, an external haproxy instance
+  ## is configured and managed as a sidecar container
+  haproxy:
+    enabled: false
+
+    image:
+      repository: haproxy
+      tag: "2.2.4-alpine"
+      pullPolicy: IfNotPresent
+
+    ## Additional command line arguments to pass to haproxy
+    extraArgs: {}
+
+    resources: {}
+    #  limits:
+    #    cpu: 500m
+    #    memory: 768Mi
+    #  requests:
+    #    cpu: 500m
+    #    memory: 768Mi
+
   stats:
     enabled: false
     port: 1936

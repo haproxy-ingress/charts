@@ -79,6 +79,12 @@ Parameter | Description | Default
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
 `controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
+`controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
+`controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
+`controller.haproxy.image.tag` | haproxy container image tag | `2.2.4-alpine`
+`controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
+`controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
+`controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
 `controller.healthzPort` | The haproxy health check (monitoring) port | `10253`
 `controller.livenessProbe.path` | The liveness probe path | `/healthz`
 `controller.livenessProbe.port` | The livneness probe port | `10253`
