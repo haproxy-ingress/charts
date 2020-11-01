@@ -7,6 +7,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   healthz-port: {{ .Values.controller.healthzPort | quote }}
+{{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
+  prometheus-port: {{ .Values.controller.metrics.port | quote }}
+{{- end }}
   stats-port: {{ .Values.controller.stats.port | quote }}
 {{- if .Values.controller.logs.enabled }}
   syslog-endpoint: "localhost:514"

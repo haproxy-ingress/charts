@@ -56,6 +56,11 @@ spec:
           hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
   {{- end }}
 {{- end }}
+{{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
+        - name: metrics
+          containerPort: {{ .Values.controller.metrics.port }}
+          protocol: TCP
+{{- end }}
 {{- if .Values.controller.stats.enabled }}
         - name: stats
           containerPort: {{ .Values.controller.stats.port }}
@@ -125,12 +130,13 @@ spec:
       resources:
         {{- toYaml .Values.controller.logs.resources | nindent 8 }}
 {{- end }}
-{{- if and .Values.controller.stats.enabled .Values.controller.metrics.enabled }}
+{{- if and .Values.controller.stats.enabled .Values.controller.metrics.enabled (not .Values.controller.metrics.embedded) }}
     - name: prometheus-exporter
       image:  "{{ .Values.controller.metrics.image.repository }}:{{ .Values.controller.metrics.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.metrics.image.pullPolicy }}"
       args:
         - '--haproxy.scrape-uri=http://localhost:{{ .Values.controller.stats.port }}/haproxy?stats;csv'
+        - --web.listen-address=:{{ .Values.controller.metrics.port }}
   {{- range $key, $value := .Values.controller.metrics.extraArgs }}
     {{- if $value }}
         - --{{ $key }}={{ $value }}
@@ -140,7 +146,7 @@ spec:
   {{- end }}
       ports:
         - name: metrics
-          containerPort: 9101
+          containerPort: {{ .Values.controller.metrics.port }}
           protocol: TCP
       livenessProbe:
         httpGet:

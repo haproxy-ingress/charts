@@ -241,13 +241,22 @@ controller:
       type: ClusterIP
 
   ## If controller.stats.enabled = true and controller.metrics.enabled = true, Prometheus metrics will be exported
+  ## Metrics will also be exposed if the embedded haproxy's exporter is used
   ##
   metrics:
     enabled: false
 
+    # Defines if the haproxy's embedded prometheus exporter should be used
+    # If false, haproxy_exporter sidecar container is used instead and stats need to be enabled
+    embedded: true
+
+    # Port number the exporter is listening to
+    port: 9101
+
     # prometheus exporter for haproxy
     # https://github.com/prometheus/haproxy_exporter
     # (scrapes the stats port and exports metrics to prometheus)
+    # Only used if embedded == false
     image:
       repository: quay.io/prometheus/haproxy-exporter
       tag: "v0.11.0"

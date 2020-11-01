@@ -146,10 +146,12 @@ Parameter | Description | Default
 `controller.stats.service.servicePort` | the port number exposed by the stats service | `1936`
 `controller.stats.service.type` | type of controller service to create | `ClusterIP`
 `controller.metrics.enabled` | If `controller.stats.enabled = true` and `controller.metrics.enabled = true`, Prometheus metrics will be exported |  `false`
-`controller.metrics.image.repository` | prometheus-exporter image repository | `quay.io/prometheus/haproxy-exporter`
+`controller.metrics.embedded` | defines if embedded haproxy's exporter should be used | `true`
+`controller.metrics.port` | port number the exporter is listening to | `9101`
+`controller.metrics.image.repository` | prometheus-exporter image repository when embedded is `false` | `quay.io/prometheus/haproxy-exporter`
 `controller.metrics.image.tag` | prometheus-exporter image tag | `v0.11.0`
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`
-`controller.metrics.extraArgs` | Extra arguments to the haproxy_exporter |  `{}`
+`controller.metrics.extraArgs` | Extra arguments to the prometheus-exporter |  `{}`
 `controller.metrics.resources` | prometheus-exporter container resource requests & limits |  `{}`
 `controller.metrics.service.annotations` | annotations for metrics service | `{}`
 `controller.metrics.service.clusterIP` | internal metrics cluster service IP | `nil`
