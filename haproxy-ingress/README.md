@@ -28,8 +28,10 @@ Installation tips:
 * The default configuration installs HAProxy Ingress as a deployment, add `--set controller.kind=DaemonSet` command-line option to install as a DaemonSet
 * The default service type is `LoadBalacer`, add `--set controller.service.type=<type>` command-line option to change to `ClusterIP` or `NodePort`
 * If the release name is `haproxy-ingress`, the resource names will not add the release name prefix and will have a shorter name
-* Chart versions are in sync with minor HAProxy Ingress versions, so `--version '~0.8'` command-line option will install the latest `v0.8` release of HAProxy Ingress. See available chart and controller versions with `helm search repo haproxy-ingress -l`
-* Non stable versions available, add `--devel` command-line option to enable them
+* Chart versions are in sync with minor HAProxy Ingress versions, so:
+    * Use eg `--version '~0.8'` command-line option to install the latest `v0.8` release of HAProxy Ingress
+    * See available chart and controller versions with `helm search repo haproxy-ingress -l`
+    * Add `--devel` command-line option to enable or list non stable versions as well
 
 ## Upgrading to a new Chart version
 
