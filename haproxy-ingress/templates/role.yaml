@@ -26,7 +26,7 @@ rules:
       - update
 {{- if .Values.rbac.security.enable }}
   - apiGroups:
-      - extensions
+      - policy
     resources:
       - podsecuritypolicies
     resourceNames:
