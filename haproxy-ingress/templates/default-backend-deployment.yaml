@@ -33,6 +33,9 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.defaultBackend.resources | nindent 12 }}
+    {{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ include "haproxy-ingress.defaultBackend.fullname" . }}
+    {{- end }}
     {{- if .Values.defaultBackend.nodeSelector }}
       nodeSelector:
         {{- toYaml .Values.defaultBackend.nodeSelector | nindent 8 }}
@@ -46,4 +49,14 @@ spec:
         {{- toYaml .Values.defaultBackend.affinity | nindent 8 }}
     {{- end }}
       terminationGracePeriodSeconds: 60
+    {{- if .Values.defaultBackend.securityContext }}
+      securityContext:
+        {{- toYaml .Values.defaultBackend.securityContext | nindent 8 }}
+    {{- else }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65000
+        runAsGroup: 65000
+        fsGroup: 65000
+    {{- end }}
 {{- end }}
