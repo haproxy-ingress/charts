@@ -1,5 +1,5 @@
 {{- if .Values.rbac.security.enable -}}
-apiVersion: extensions/v1beta1
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   annotations:
@@ -11,16 +11,15 @@ metadata:
     {{- include "haproxy-ingress.labels" . | nindent 4 }}
   name: {{ include "haproxy-ingress.fullname" . }}
 spec:
-  privileged: true
-  allowPrivilegeEscalation: true
+  privileged: false
+  allowPrivilegeEscalation: false
   defaultAllowPrivilegeEscalation: false
-  allowedCapabilities:
-    - SYS_RESOURCE
   defaultAddCapabilities:
-    - SYS_RESOURCE
+    - NET_BIND_SERVICE
   volumes:
     - configMap
     - secret
+    - emptyDir
   hostNetwork: false
   hostPorts:
   - min: 0
@@ -33,7 +32,4 @@ spec:
     rule: 'RunAsAny'
   fsGroup:
     rule: 'RunAsAny'
-  allowedHostPaths:
-    - pathPrefix: /etc/haproxy/template
-      readOnly: false
 {{- end }}
