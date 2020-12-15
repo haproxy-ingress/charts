@@ -196,3 +196,4 @@ Parameter | Description | Default
 `defaultBackend.service.loadBalancerSourceRanges` |  | `[]`
 `defaultBackend.service.servicePort` | the port number exposed by the metrics service | `1936`
 `defaultBackend.service.type` | type of controller service to create | `ClusterIP`
+`defaultBackend.securityContext` | custom POD security context for the default backend | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`

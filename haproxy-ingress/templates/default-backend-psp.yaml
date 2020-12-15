@@ -1,0 +1,38 @@
+{{- if and .Values.defaultBackend.enabled .Values.rbac.security.enable }}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
+    apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'
+    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'docker/default'
+    apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.defaultBackend.fullname" . }}
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  defaultAllowPrivilegeEscalation: false
+  forbiddenSysctls:
+  - '*'
+  fsGroup:
+    ranges:
+    - max: 65535
+      min: 1
+    rule: MustRunAs
+  readOnlyRootFilesystem: true
+  requiredDropCapabilities:
+  - ALL
+  runAsUser:
+    rule: MustRunAsNonRoot
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    ranges:
+    - max: 65535
+      min: 1
+    rule: MustRunAs
+  volumes:
+  - configMap
+{{- end }}
