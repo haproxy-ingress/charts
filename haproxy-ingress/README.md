@@ -168,6 +168,11 @@ Parameter | Description | Default
 `controller.metrics.service.loadBalancerSourceRanges` |  | `[]`
 `controller.metrics.service.servicePort` | the port number exposed by the metrics service | `9101`
 `controller.metrics.service.type` | type of controller service to create | `ClusterIP`
+`controller.serviceMonitor.enabled` | Enable creation of ServiceMonitor (https://coreos.com/operators/prometheus/docs/latest/api.html#servicemonitor). This has effect only when `controller.stats.enabled = true` and `controller.metrics.enabled = true` | `false`
+`controller.serviceMonitor.labels` | Additional labels for the ServiceMonitor resource | `{}`
+`controller.serviceMonitor.annotations` | Annotations for ServiceMonitor resource | `{}`
+`controller.serviceMonitor.honorLabels` | HonorLabels chooses the metric's labels on collisions with target labels | `true`
+`controller.serviceMonitor.interval` | Prometheus scrape interval | `10s`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
 `controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`
 `controller.logs.image.tag` | access-logs image tag | `latest`

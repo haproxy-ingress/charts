@@ -1,0 +1,30 @@
+{{- if and .Values.controller.serviceMonitor.enabled .Values.controller.metrics.enabled (or .Values.controller.stats.enabled .Values.controller.metrics.embedded) -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+{{- if .Values.controller.serviceMonitor.annotations }}
+  annotations:
+    {{- toYaml .Values.controller.serviceMonitor.annotations | nindent 4 }}
+{{- end }}
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+{{- if .Values.controller.serviceMonitor.labels }}
+    {{- toYaml .Values.controller.serviceMonitor.labels | nindent 4 }}
+{{- end }}
+  name: {{ include "haproxy-ingress.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  endpoints:
+  - honorLabels: {{ .Values.controller.serviceMonitor.honorLabels }}
+    interval: {{ .Values.controller.serviceMonitor.interval }}
+    path: /metrics
+    port: metrics
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: haproxy-ingress
+      app.kubernetes.io/component: metrics
+{{- end }}
