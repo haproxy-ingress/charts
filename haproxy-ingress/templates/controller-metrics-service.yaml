@@ -8,6 +8,9 @@ metadata:
 {{- end }}
   labels:
     {{- include "haproxy-ingress.labels" . | nindent 4 }}
+{{- if .Values.controller.serviceMonitor.enabled }}
+    app.kubernetes.io/component: metrics
+{{- end }}
   name: {{ include "haproxy-ingress.fullname" . }}-metrics
   namespace: {{ .Release.Namespace }}
 spec:

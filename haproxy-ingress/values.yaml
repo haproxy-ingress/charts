@@ -314,6 +314,25 @@ controller:
       servicePort: 9101
       type: ClusterIP
 
+  ## If controller.stats.enabled = true and controller.metrics.enabled = true and controller.serviceMonitor.enabled = true, Prometheus ServiceMonitor will be created
+  ## Ref: https://coreos.com/operators/prometheus/docs/latest/api.html#servicemonitor
+  ## Ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md
+  ##
+  serviceMonitor:
+    enabled: false
+
+    # Additional labels for ServiceMonitor object
+    labels: {}
+
+    # Annotations for ServiceMonitor object
+    annotations: {}
+
+    # Prometheus honorLabels
+    honorLabels: true
+
+    # Prometheus scrape interval
+    interval: 10s
+
   ## access-logs side-car container for collecting haproxy logs
   ## Enabling this will configure haproxy to emit logs to syslog localhost:514 UDP port.
   ## The access-logs container starts a syslog process that listens on UDP 514 and outputs to stdout.
