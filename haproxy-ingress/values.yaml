@@ -257,6 +257,10 @@ controller:
     # Port number the exporter is listening to
     port: 9101
 
+    # The port the controller exports metrics on.
+    # If you change it here, you must also change it using the controller.extraArgs.
+    controllerPort: 10254
+
     # prometheus exporter for haproxy
     # https://github.com/prometheus/haproxy_exporter
     # (scrapes the stats port and exports metrics to prometheus)
