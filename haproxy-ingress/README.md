@@ -75,9 +75,11 @@ Parameter | Description | Default
 `controller.image.tag` | controller container image tag | `v0.12-beta.2`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
-`controller.initContainers` | extra containers that can initialize the haproxy-ingress-controller | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
-`controller.extraEnv` | extra environment variables for the haproxy-ingress-controller | `{}`
+`controller.extraEnvs` | extra environment variables for the haproxy-ingress-controller | `[]`
+`controller.extraVolumes` | extra volumes for the haproxy-ingress-controller | `[]`
+`controller.extraVolumeMounts` | extra volume mounts for the haproxy-ingress-controller | `[]`
+`controller.initContainers` | extra containers that can initialize the haproxy-ingress-controller | `[]`
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
 `controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`

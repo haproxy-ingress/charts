@@ -42,6 +42,10 @@ controller:
   #         key: FOO
   #         name: secret-resource
 
+  ## Additional volumes and volume mounts
+  extraVolumes: []
+  extraVolumeMounts: []
+
   ## Additional containers that can initialize the pod.
   initContainers: []
 
