@@ -112,10 +112,15 @@ spec:
 {{- if .Values.controller.extraEnvs }}
         {{- toYaml .Values.controller.extraEnvs | nindent 8 }}
 {{- end }}
-{{- if .Values.controller.template }}
+{{- if or .Values.controller.template .Values.controller.extraVolumeMounts }}
       volumeMounts:
+  {{- if .Values.controller.template }}
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
+  {{- end }}
+  {{- if .Values.controller.extraVolumeMounts }}
+        {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
+  {{- end }}
 {{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}
@@ -159,11 +164,16 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if .Values.controller.template }}
+{{- if or .Values.controller.template .Values.controller.extraVolumes }}
   volumes:
+  {{- if .Values.controller.template }}
     - name: haproxy-template
       configMap:
         name: {{ include "haproxy-ingress.fullname" . }}-template
+  {{- end }}
+  {{- if .Values.controller.extraVolumes }}
+    {{- toYaml .Values.controller.extraVolumes | nindent 4 }}
+  {{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
   dnsPolicy: {{ .Values.controller.dnsPolicy }}
