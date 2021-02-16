@@ -158,6 +158,7 @@ Parameter | Description | Default
 `controller.metrics.enabled` | If `controller.stats.enabled = true` and `controller.metrics.enabled = true`, Prometheus metrics will be exported |  `false`
 `controller.metrics.embedded` | defines if embedded haproxy's exporter should be used | `true`
 `controller.metrics.port` | port number the exporter is listening to | `9101`
+`controller.metrics.controllerPort` | port number the controller is exporting metrics on | `10254`
 `controller.metrics.image.repository` | prometheus-exporter image repository when embedded is `false` | `quay.io/prometheus/haproxy-exporter`
 `controller.metrics.image.tag` | prometheus-exporter image tag | `v0.11.0`
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`

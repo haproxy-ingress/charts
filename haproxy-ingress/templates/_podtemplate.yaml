@@ -65,8 +65,18 @@ spec:
         - --{{ $key }}
   {{- end }}
 {{- end }}
+{{- if or (not .Values.controller.haproxy.enabled) .Values.controller.metrics.enabled }}
+      ports:
+  {{- if not .Values.controller.haproxy.enabled }}
+        {{- include "haproxy-ingress.controller.ports" . | nindent 8 }}
+  {{- end }}
+  {{- if .Values.controller.metrics.enabled }}
+        - name: controller-metrics
+          containerPort: {{ .Values.controller.metrics.controllerPort }}
+          protocol: TCP
+  {{- end }}
+{{- end }}
 {{- if not .Values.controller.haproxy.enabled }}
-      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
       {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
 {{- end }}
       env:
@@ -118,7 +128,8 @@ spec:
         - --{{ $key }}
     {{- end }}
   {{- end }}
-      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
+      ports:
+        {{- include "haproxy-ingress.controller.ports" . | nindent 8 }}
       {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
       resources:
         {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
@@ -217,7 +228,6 @@ spec:
 {{- end }}
 
 {{- define "haproxy-ingress.controller.ports" -}}
-ports:
 {{- if .Values.controller.enableStaticPorts }}
   - name: http
     containerPort: 80
