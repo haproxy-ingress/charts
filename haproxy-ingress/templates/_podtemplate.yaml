@@ -77,7 +77,7 @@ spec:
   {{- end }}
 {{- end }}
 {{- if not .Values.controller.haproxy.enabled }}
-      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
+      {{- include "haproxy-ingress.controller.probes" . | indent 6 }}
 {{- end }}
       env:
         - name: POD_NAME
@@ -130,7 +130,7 @@ spec:
   {{- end }}
       ports:
         {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
-      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
+      {{- include "haproxy-ingress.controller.probes" . | indent 6 }}
       resources:
         {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
       volumeMounts:
@@ -227,7 +227,7 @@ spec:
 {{- end }}
 {{- end }}
 
-{{- define "haproxy-ingress.controller.ports" -}}
+{{- define "haproxy-ingress.controller.ports" }}
 {{- if .Values.controller.enableStaticPorts }}
 - name: http
   containerPort: 80
@@ -266,7 +266,7 @@ spec:
 {{- end }}
 {{- end }}
 
-{{- define "haproxy-ingress.controller.probes" -}}
+{{- define "haproxy-ingress.controller.probes" }}
 livenessProbe:
   httpGet:
     path: {{ .Values.controller.livenessProbe.path | quote }}
