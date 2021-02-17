@@ -68,7 +68,7 @@ spec:
 {{- if or (not .Values.controller.haproxy.enabled) .Values.controller.metrics.enabled }}
       ports:
   {{- if not .Values.controller.haproxy.enabled }}
-        {{- include "haproxy-ingress.controller.ports" . | nindent 8 }}
+        {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
   {{- end }}
   {{- if .Values.controller.metrics.enabled }}
         - name: controller-metrics
@@ -129,7 +129,7 @@ spec:
     {{- end }}
   {{- end }}
       ports:
-        {{- include "haproxy-ingress.controller.ports" . | nindent 8 }}
+        {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
       {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
       resources:
         {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
@@ -229,37 +229,37 @@ spec:
 
 {{- define "haproxy-ingress.controller.ports" -}}
 {{- if .Values.controller.enableStaticPorts }}
-  - name: http
-    containerPort: 80
+- name: http
+  containerPort: 80
   {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
-    hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
+  hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
   {{- end }}
-  - name: https
-    containerPort: 443
+- name: https
+  containerPort: 443
   {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
-    hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
+  hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
   {{- end }}
 {{- end }}
 {{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
-  - name: metrics
-    containerPort: {{ .Values.controller.metrics.port }}
-    protocol: TCP
+- name: metrics
+  containerPort: {{ .Values.controller.metrics.port }}
+  protocol: TCP
 {{- end }}
 {{- if .Values.controller.stats.enabled }}
-  - name: stats
-    containerPort: {{ .Values.controller.stats.port }}
-    protocol: TCP
+- name: stats
+  containerPort: {{ .Values.controller.stats.port }}
+  protocol: TCP
 {{- end }}
-  - name: healthz
-    containerPort: {{ .Values.controller.healthzPort }}
+- name: healthz
+  containerPort: {{ .Values.controller.healthzPort }}
 {{- range $key, $value := .Values.controller.tcp }}
-  - name: "{{ $key }}-tcp"
-    containerPort: {{ $key }}
-    protocol: TCP
+- name: "{{ $key }}-tcp"
+  containerPort: {{ $key }}
+  protocol: TCP
   {{- if and (eq $.Values.controller.kind "DaemonSet") $.Values.controller.daemonset.useHostPort }}
     {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
       {{- if eq $key $p }}
-    hostPort: {{ $key }}
+  hostPort: {{ $key }}
       {{- end }}
     {{- end }}
   {{- end }}
