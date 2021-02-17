@@ -65,9 +65,19 @@ spec:
         - --{{ $key }}
   {{- end }}
 {{- end }}
+{{- if or (not .Values.controller.haproxy.enabled) .Values.controller.metrics.enabled }}
+      ports:
+  {{- if not .Values.controller.haproxy.enabled }}
+        {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
+  {{- end }}
+  {{- if .Values.controller.metrics.enabled }}
+        - name: controller-metrics
+          containerPort: {{ .Values.controller.metrics.controllerPort }}
+          protocol: TCP
+  {{- end }}
+{{- end }}
 {{- if not .Values.controller.haproxy.enabled }}
-      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
-      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
+      {{- include "haproxy-ingress.controller.probes" . | indent 6 }}
 {{- end }}
       env:
         - name: POD_NAME
@@ -81,7 +91,7 @@ spec:
 {{- if .Values.controller.extraEnvs }}
         {{- toYaml .Values.controller.extraEnvs | nindent 8 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.extraVolumeMounts }}
       volumeMounts:
 {{- if .Values.controller.haproxy.enabled }}
         - mountPath: /etc/haproxy
@@ -94,6 +104,9 @@ spec:
 {{- if .Values.controller.template }}
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
+{{- end }}
+{{- if .Values.controller.extraVolumeMounts }}
+        {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
 {{- end }}
       resources:
@@ -115,8 +128,9 @@ spec:
         - --{{ $key }}
     {{- end }}
   {{- end }}
-      {{- include "haproxy-ingress.controller.ports" . | nindent 6 }}
-      {{- include "haproxy-ingress.controller.probes" . | nindent 6 }}
+      ports:
+        {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
+      {{- include "haproxy-ingress.controller.probes" . | indent 6 }}
       resources:
         {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
       volumeMounts:
@@ -126,6 +140,9 @@ spec:
           name: lib
         - mountPath: /var/run/haproxy
           name: run
+{{- if .Values.controller.extraVolumeMounts }}
+        {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
+{{- end }}
 {{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
@@ -167,7 +184,7 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.extraVolumes }}
   volumes:
 {{- if .Values.controller.haproxy.enabled }}
     - name: etc
@@ -181,6 +198,9 @@ spec:
     - name: haproxy-template
       configMap:
         name: {{ include "haproxy-ingress.fullname" . }}-template
+{{- end }}
+{{- if .Values.controller.extraVolumes }}
+    {{- toYaml .Values.controller.extraVolumes | nindent 4 }}
 {{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
@@ -207,47 +227,46 @@ spec:
 {{- end }}
 {{- end }}
 
-{{- define "haproxy-ingress.controller.ports" -}}
-ports:
+{{- define "haproxy-ingress.controller.ports" }}
 {{- if .Values.controller.enableStaticPorts }}
-  - name: http
-    containerPort: 80
+- name: http
+  containerPort: 80
   {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
-    hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
+  hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
   {{- end }}
-  - name: https
-    containerPort: 443
+- name: https
+  containerPort: 443
   {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
-    hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
+  hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
   {{- end }}
 {{- end }}
 {{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
-  - name: metrics
-    containerPort: {{ .Values.controller.metrics.port }}
-    protocol: TCP
+- name: metrics
+  containerPort: {{ .Values.controller.metrics.port }}
+  protocol: TCP
 {{- end }}
 {{- if .Values.controller.stats.enabled }}
-  - name: stats
-    containerPort: {{ .Values.controller.stats.port }}
-    protocol: TCP
+- name: stats
+  containerPort: {{ .Values.controller.stats.port }}
+  protocol: TCP
 {{- end }}
-  - name: healthz
-    containerPort: {{ .Values.controller.healthzPort }}
+- name: healthz
+  containerPort: {{ .Values.controller.healthzPort }}
 {{- range $key, $value := .Values.controller.tcp }}
-  - name: "{{ $key }}-tcp"
-    containerPort: {{ $key }}
-    protocol: TCP
+- name: "{{ $key }}-tcp"
+  containerPort: {{ $key }}
+  protocol: TCP
   {{- if and (eq $.Values.controller.kind "DaemonSet") $.Values.controller.daemonset.useHostPort }}
     {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
       {{- if eq $key $p }}
-    hostPort: {{ $key }}
+  hostPort: {{ $key }}
       {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
 {{- end }}
 
-{{- define "haproxy-ingress.controller.probes" -}}
+{{- define "haproxy-ingress.controller.probes" }}
 livenessProbe:
   httpGet:
     path: {{ .Values.controller.livenessProbe.path | quote }}

@@ -75,9 +75,11 @@ Parameter | Description | Default
 `controller.image.tag` | controller container image tag | `v0.12-beta.2`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
-`controller.initContainers` | extra containers that can initialize the haproxy-ingress-controller | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
-`controller.extraEnv` | extra environment variables for the haproxy-ingress-controller | `{}`
+`controller.extraEnvs` | extra environment variables for the haproxy-ingress-controller | `[]`
+`controller.extraVolumes` | extra volumes for the haproxy-ingress-controller | `[]`
+`controller.extraVolumeMounts` | extra volume mounts for the haproxy-ingress-controller | `[]`
+`controller.initContainers` | extra containers that can initialize the haproxy-ingress-controller | `[]`
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
 `controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
@@ -156,6 +158,7 @@ Parameter | Description | Default
 `controller.metrics.enabled` | If `controller.stats.enabled = true` and `controller.metrics.enabled = true`, Prometheus metrics will be exported |  `false`
 `controller.metrics.embedded` | defines if embedded haproxy's exporter should be used | `true`
 `controller.metrics.port` | port number the exporter is listening to | `9101`
+`controller.metrics.controllerPort` | port number the controller is exporting metrics on | `10254`
 `controller.metrics.image.repository` | prometheus-exporter image repository when embedded is `false` | `quay.io/prometheus/haproxy-exporter`
 `controller.metrics.image.tag` | prometheus-exporter image tag | `v0.11.0`
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`
