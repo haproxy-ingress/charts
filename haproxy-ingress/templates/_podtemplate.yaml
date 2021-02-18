@@ -62,7 +62,7 @@ spec:
           protocol: TCP
 {{- end }}
 {{- if .Values.controller.metrics.enabled }}
-        - name: controller-metrics
+        - name: ctrl-metrics
           containerPort: {{ .Values.controller.metrics.controllerPort }}
           protocol: TCP
 {{- end }}
