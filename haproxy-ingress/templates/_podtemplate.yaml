@@ -71,7 +71,7 @@ spec:
         {{- include "haproxy-ingress.controller.ports" . | indent 8 }}
   {{- end }}
   {{- if .Values.controller.metrics.enabled }}
-        - name: controller-metrics
+        - name: ctrl-metrics
           containerPort: {{ .Values.controller.metrics.controllerPort }}
           protocol: TCP
   {{- end }}
