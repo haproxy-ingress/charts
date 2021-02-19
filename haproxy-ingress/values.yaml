@@ -320,6 +320,7 @@ controller:
       loadBalancerIP: ""
       loadBalancerSourceRanges: []
       servicePort: 9101
+      serviceControllerPort: 10254
       type: ClusterIP
 
   ## If controller.stats.enabled = true and controller.metrics.enabled = true and controller.serviceMonitor.enabled = true, Prometheus ServiceMonitor will be created
