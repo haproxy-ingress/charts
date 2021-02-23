@@ -29,6 +29,9 @@ spec:
     - name: metrics
       port: {{ .Values.controller.metrics.service.servicePort }}
       targetPort: metrics
+    - name: ctrl-metrics
+      port: {{ .Values.controller.metrics.service.serviceControllerPort }}
+      targetPort: ctrl-metrics
   selector:
     {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.metrics.service.type }}"

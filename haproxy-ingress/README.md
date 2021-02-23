@@ -162,6 +162,7 @@ Parameter | Description | Default
 `controller.metrics.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.metrics.service.loadBalancerSourceRanges` |  | `[]`
 `controller.metrics.service.servicePort` | the port number exposed by the metrics service | `9101`
+`controller.metrics.service.serviceControllerPort` | the controller port number exposed by the metrics service | `10254`
 `controller.metrics.service.type` | type of controller service to create | `ClusterIP`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
 `controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`

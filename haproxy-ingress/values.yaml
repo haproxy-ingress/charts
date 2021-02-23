@@ -299,6 +299,7 @@ controller:
       loadBalancerIP: ""
       loadBalancerSourceRanges: []
       servicePort: 9101
+      serviceControllerPort: 10254
       type: ClusterIP
 
   ## access-logs side-car container for collecting haproxy logs
