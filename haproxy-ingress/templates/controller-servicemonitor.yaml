@@ -19,6 +19,10 @@ spec:
     interval: {{ .Values.controller.serviceMonitor.interval }}
     path: /metrics
     port: metrics
+  - honorLabels: {{ .Values.controller.serviceMonitor.honorLabels }}
+    interval: {{ .Values.controller.serviceMonitor.interval }}
+    path: /metrics
+    port: ctrl-metrics
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
