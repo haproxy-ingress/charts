@@ -59,6 +59,30 @@ $ helm delete ingress
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
+## Running in Dual-Stack Mode
+
+To run the HAProxy Ingress in dual-stack mode you will need a Kubernetes cluster that supports dual-stack services (v1.20+ with the `IPv6DualStack` feature gate enabled), and make the following configuration changes:
+
+```yaml
+controller:
+  config:
+    bind-ip-addr-http: "[::]"
+    bind-ip-addr-tcp: "[::]"
+  service:
+    ipFamilyPolicy: RequireDualStack
+```
+
+You may need to make additional configuration changes if you have an IPv6-only or IPv6-first dual-stack cluster.
+
+For more information, see the Kubernetes [IPv4/IPv6 dual-stack](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) documentation for instructions on configuring your cluster.
+
+Note that in dual-stack or IPv6-only mode logging [does not work](https://github.com/haproxy-ingress/charts/issues/15) by default. Enable the external/sidecar HAProxy setting to work around this:
+
+```yaml
+haproxy:
+  enabled: true
+```
+
 ## Configuration
 
 The following table lists the configurable parameters of the HAProxy Ingress chart and their default values.
@@ -139,8 +163,11 @@ Parameter | Description | Default
 `controller.service.annotations` | annotations for controller service | `{}`
 `controller.service.labels` | labels for controller service | `{}`
 `controller.service.clusterIP` | internal controller cluster service IP | `nil`
+`controller.service.clusterIPs` | list of internal controller cluster service IPs (for dual-stack) | `[]`
 `controller.service.externalTrafficPolicy` | If `controller.service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable [source IP preservation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) | `Local`
 `controller.service.externalIPs` | list of IP addresses at which the controller services are available | `[]`
+`controller.service.ipFamilies` | list of IP families assigned to the service (for dual-stack) | `nil`
+`controller.service.ipFamilyPolicy` | represents the dual-stack-ness of the service | `nil`
 `controller.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.service.loadBalancerSourceRanges` |  | `[]`
 `controller.service.httpPorts` | The http ports to open, that map to the Ingress' port 80. Each entry specifies a `port`, `targetPort` and an optional `nodePort`. | `[ port: 80, targetPort: http ]`

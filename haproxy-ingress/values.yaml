@@ -199,11 +199,19 @@ controller:
     annotations: {}
     labels: {}
     clusterIP: ""
+    clusterIPs: []
 
     ## List of IP addresses at which the controller services are available
     ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
     ##
     externalIPs: []
+
+    ## Dual-stack service configuration
+    ## Please see the README for other required settings to make dual-stack mode work.
+    ## Ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services
+    ##
+    # ipFamilies: [IPv4]
+    # ipFamilyPolicy: PreferDualStack
 
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
