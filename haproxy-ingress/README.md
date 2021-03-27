@@ -76,11 +76,14 @@ You may need to make additional configuration changes if you have an IPv6-only o
 
 For more information, see the Kubernetes [IPv4/IPv6 dual-stack](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) documentation for instructions on configuring your cluster.
 
-Note that in dual-stack or IPv6-only mode logging [does not work](https://github.com/haproxy-ingress/charts/issues/15) by default. Enable the external/sidecar HAProxy setting to work around this:
+Note that in IPv6-only mode, logging [does not work](https://github.com/haproxy-ingress/charts/issues/15) by default. Enable the external/sidecar HAProxy setting and leave logs disabled to work around this:
 
 ```yaml
-haproxy:
-  enabled: true
+controller:
+  logs:
+    enabled: false
+  haproxy:
+    enabled: true
 ```
 
 ## Configuration

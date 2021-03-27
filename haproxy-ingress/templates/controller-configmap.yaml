@@ -12,7 +12,7 @@ data:
 {{- end }}
   stats-port: {{ .Values.controller.stats.port | quote }}
 {{- if .Values.controller.logs.enabled }}
-  syslog-endpoint: "localhost:514"
+  syslog-endpoint: "127.0.0.1:514"
 {{- else if and .Values.controller.haproxy.enabled (not (hasKey .Values.controller.config "syslog-endpoint")) }}
   syslog-endpoint: "stdout"
   syslog-format: "raw"
