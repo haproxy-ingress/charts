@@ -112,7 +112,7 @@ Parameter | Description | Default
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
-`controller.haproxy.image.tag` | haproxy container image tag | `2.2.11-alpine`
+`controller.haproxy.image.tag` | haproxy container image tag | `2.2.13-alpine`
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
