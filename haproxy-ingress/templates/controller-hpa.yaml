@@ -14,18 +14,22 @@ spec:
   minReplicas: {{ .Values.controller.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.controller.autoscaling.maxReplicas }}
   metrics:
+{{- if .Values.controller.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
           averageUtilization: {{ .Values.controller.autoscaling.targetCPUUtilizationPercentage }}
+{{- end }}
+{{- if .Values.controller.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
           averageUtilization: {{ .Values.controller.autoscaling.targetMemoryUtilizationPercentage }}
+{{- end }}
 {{- if .Values.controller.autoscaling.customMetrics }}
     {{- toYaml .Values.controller.autoscaling.customMetrics | nindent 4 }}
 {{- end }}
