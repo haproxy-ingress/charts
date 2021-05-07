@@ -316,6 +316,9 @@ controller:
       tag: latest
       pullPolicy: IfNotPresent
 
+    ## Additional volume mounts
+    extraVolumeMounts: []
+
     resources: {}
     #  limits:
     #    cpu: 200m
