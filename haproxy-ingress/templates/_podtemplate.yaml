@@ -127,6 +127,10 @@ spec:
         - name: udp
           containerPort: 514
           protocol: UDP
+{{- if .Values.controller.logs.extraVolumeMounts }}
+      volumeMounts:
+        {{- toYaml .Values.controller.logs.extraVolumeMounts | nindent 8 }}
+{{- end }}
       resources:
         {{- toYaml .Values.controller.logs.resources | nindent 8 }}
 {{- end }}
