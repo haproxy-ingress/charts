@@ -17,7 +17,9 @@ spec:
   clusterIP: "{{ .Values.controller.service.clusterIP }}"
 {{- end }}
 {{- if .Values.controller.service.externalTrafficPolicy }}
+{{- if or (eq .Values.controller.service.type "NodePort") (eq .Values.controller.service.type "LoadBalancer") }}
   externalTrafficPolicy: "{{ .Values.controller.service.externalTrafficPolicy }}"
+{{- end }}
 {{- end }}
 {{- if .Values.controller.service.externalIPs }}
   externalIPs:
