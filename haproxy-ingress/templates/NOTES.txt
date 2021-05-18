@@ -30,22 +30,3 @@ Get the application URL by running these commands:
     echo "Visit http://127.0.0.1:8080 to access your application."
 
 {{- end }}
-
-An example Ingress that makes use of the controller:
-
-  apiVersion: networking.k8s.io/v1beta1
-  kind: Ingress
-  metadata:
-    annotations:
-      kubernetes.io/ingress.class: haproxy
-    name: example
-    namespace: default
-  spec:
-    rules:
-      - host: www.example.com
-        http:
-          paths:
-            - backend:
-                serviceName: exampleService
-                servicePort: 8080
-              path: /
