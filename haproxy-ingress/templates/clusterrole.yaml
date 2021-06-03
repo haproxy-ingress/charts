@@ -41,6 +41,20 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - networking.x-k8s.io
+    resources:
+      - gateways
+      - gatewayclasses
+      - httproutes
+      - tlsroutes
+      - tcproutes
+      - udproutes
+      - backendpolicies
+    verbs:
+      - get
+      - list
+      - watch
 {{- if .Values.rbac.secret.write }}
   - apiGroups:
       - ""
