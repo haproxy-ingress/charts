@@ -184,6 +184,9 @@ spec:
       resources:
         {{- toYaml .Values.controller.metrics.resources | nindent 8 }}
 {{- end }}
+{{- if .Values.controller.extraContainers }}
+    {{- toYaml .Values.controller.extraContainers | nindent 4 }}
+{{- end }}
 {{- if .Values.controller.imagePullSecrets }}
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
