@@ -170,6 +170,7 @@ Parameter | Description | Default
 `controller.service.clusterIPs` | list of internal controller cluster service IPs (for dual-stack) | `[]`
 `controller.service.externalTrafficPolicy` | If `controller.service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable [source IP preservation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) | `Local`
 `controller.service.externalIPs` | list of IP addresses at which the controller services are available | `[]`
+`controller.service.extraPorts` | list of extra TCP ports that should be added to the controller service | `[]`
 `controller.service.ipFamilies` | list of IP families assigned to the service (for dual-stack) | `nil`
 `controller.service.ipFamilyPolicy` | represents the dual-stack-ness of the service | `nil`
 `controller.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
