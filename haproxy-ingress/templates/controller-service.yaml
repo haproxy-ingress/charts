@@ -73,6 +73,15 @@ spec:
       protocol: TCP
       targetPort: "{{ tpl $key $ }}-tcp"
 {{- end }}
+{{- range $row := .Values.controller.service.extraPorts }}
+    - name: "extra-port-{{ $row.port }}"
+      port: {{ $row.port }}
+      protocol: TCP
+      targetPort: {{ $row.targetPort }}
+    {{- if (not (empty $row.nodePort)) }}
+      nodePort: {{ $row.nodePort }}
+    {{- end }}
+{{- end }}
   selector:
     {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.service.type }}"
