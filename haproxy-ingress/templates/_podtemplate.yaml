@@ -111,6 +111,10 @@ spec:
 {{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}
+{{- if .Values.controller.lifecycle }}
+      lifecycle:
+        {{- toYaml .Values.controller.lifecycle | nindent 8 }}
+{{- end }}
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy
       image: "{{ .Values.controller.haproxy.image.repository }}:{{ .Values.controller.haproxy.image.tag }}"
