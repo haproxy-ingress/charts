@@ -119,6 +119,12 @@ controller:
   # How many seconds to wait before terminating a pod.
   terminationGracePeriodSeconds: 60
 
+  # Configure container lifecycle. When scaling replicas down this can be
+  # used to prevent controller container from terminating quickly and drop in-flight requests.
+  # For example, when the controller runs behind Network Load Balancer this can be used
+  # to configure preStop hook to sleep along with deregistration_delay.
+  lifecycle: {}
+
   ## DaemonSet or Deployment
   ##
   kind: Deployment
