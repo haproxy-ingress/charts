@@ -129,6 +129,10 @@ spec:
 {{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}
+{{- if .Values.controller.lifecycle }}
+      lifecycle:
+        {{- toYaml .Values.controller.lifecycle | nindent 8 }}
+{{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
       image:  "{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
