@@ -20,7 +20,7 @@ fullnameOverride: ""
 controller:
   image:
     repository: quay.io/jcmoraisjr/haproxy-ingress
-    tag: v0.10.8
+    tag: v0.10.9
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
