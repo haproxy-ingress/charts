@@ -33,6 +33,10 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.defaultBackend.resources | nindent 12 }}
+{{- if .Values.controller.securityContext }}
+          securityContext:
+            {{- toYaml .Values.defaultBackend.securityContext | nindent 12 }}
+{{- end }}
     {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ include "haproxy-ingress.defaultBackend.fullname" . }}
     {{- end }}
@@ -49,9 +53,9 @@ spec:
         {{- toYaml .Values.defaultBackend.affinity | nindent 8 }}
     {{- end }}
       terminationGracePeriodSeconds: 60
-    {{- if .Values.defaultBackend.securityContext }}
+    {{- if .Values.defaultBackend.podSecurityContext }}
       securityContext:
-        {{- toYaml .Values.defaultBackend.securityContext | nindent 8 }}
+        {{- toYaml .Values.defaultBackend.podSecurityContext | nindent 8 }}
     {{- else }}
       securityContext:
         runAsNonRoot: true
