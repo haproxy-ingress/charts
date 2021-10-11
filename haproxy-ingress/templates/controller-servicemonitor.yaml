@@ -19,6 +19,10 @@ spec:
     interval: {{ .Values.controller.serviceMonitor.interval }}
     path: /metrics
     port: metrics
+    {{- if .Values.controller.serviceMonitor.params.enabled }}
+    params:
+      {{- toYaml .Values.controller.serviceMonitor.params.conf | nindent 6 }}
+    {{- end }}
   - honorLabels: {{ .Values.controller.serviceMonitor.honorLabels }}
     interval: {{ .Values.controller.serviceMonitor.interval }}
     path: /metrics
