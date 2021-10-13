@@ -164,6 +164,16 @@ spec:
         - name: udp
           containerPort: 514
           protocol: UDP
+      readinessProbe:
+        tcpSocket:
+          port: 514
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        tcpSocket:
+          port: 514
+        initialDelaySeconds: 15
+        periodSeconds: 20
 {{- if .Values.controller.logs.extraVolumeMounts }}
       volumeMounts:
         {{- toYaml .Values.controller.logs.extraVolumeMounts | nindent 8 }}
