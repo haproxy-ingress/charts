@@ -27,12 +27,32 @@ spec:
         - name: {{ .Values.defaultBackend.name }}
           image: "{{ .Values.defaultBackend.image.repository }}:{{ .Values.defaultBackend.image.tag }}"
           imagePullPolicy: "{{ .Values.defaultBackend.image.pullPolicy }}"
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
           resources:
             {{- toYaml .Values.defaultBackend.resources | nindent 12 }}
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
 {{- if .Values.controller.securityContext }}
           securityContext:
             {{- toYaml .Values.defaultBackend.securityContext | nindent 12 }}
