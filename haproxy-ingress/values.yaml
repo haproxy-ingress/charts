@@ -368,11 +368,9 @@ controller:
     interval: 10s
 
     # Prometheus request extra parameters
-    params:
-      enabled: false
-      conf:
-        # no-maint:
-        # - empty
+    # params:
+    #   no-maint:
+    #   - empty
 
   ## access-logs side-car container for collecting haproxy logs
   ## Enabling this will configure haproxy to emit logs to syslog localhost:514 UDP port.
