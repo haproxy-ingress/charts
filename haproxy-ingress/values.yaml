@@ -277,6 +277,11 @@ controller:
     #    cpu: 500m
     #    memory: 768Mi
 
+    ## Container Security Context for the haproxy container
+    ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext: {}
+
   stats:
     enabled: false
     port: 1936

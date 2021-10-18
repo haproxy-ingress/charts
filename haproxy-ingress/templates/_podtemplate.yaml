@@ -151,9 +151,9 @@ spec:
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
-{{- if .Values.controller.securityContext }}
+{{- if .Values.controller.haproxy.securityContext }}
       securityContext:
-        {{- toYaml .Values.controller.securityContext | nindent 8 }}
+        {{- toYaml .Values.controller.haproxy.securityContext | nindent 8 }}
 {{- end }}
 {{- end }}
 {{- if .Values.controller.logs.enabled }}
