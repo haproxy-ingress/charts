@@ -105,10 +105,15 @@ controller:
 
   ## Security context settings to be added to the controller pods
   ##
-  securityContext: {}
+  podSecurityContext: {}
   #  sysctls:
   #  - name: net.ipv4.ip_local_port_range
   #    value: "1024 65535"
+
+  ## Security context settings to be added to the controller containers
+  ##
+  securityContext: {}
+  #  readOnlyRootFilesystem: true
 
   # ConfigMap to configure haproxy ingress
   config: {}
@@ -272,6 +277,11 @@ controller:
     #    cpu: 500m
     #    memory: 768Mi
 
+    ## Container Security Context for the haproxy container
+    ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext: {}
+
   stats:
     enabled: false
     port: 1936
@@ -329,6 +339,11 @@ controller:
     #  requests:
     #    cpu: 200m
     #    memory: 400Mi
+
+    ## Container Security Context for the logs container
+    ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext: {}
 
     service:
       annotations: {}
@@ -391,6 +406,11 @@ controller:
     #  requests:
     #    cpu: 100m
     #    memory: 32Mi
+
+    ## Container Security Context for the logs container
+    ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext: {}
 
 # Custom default 404 backend
 defaultBackend:
@@ -456,6 +476,11 @@ defaultBackend:
     type: ClusterIP
 
   ## Pod Security Context for the default backend POD
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  ##
+  podSecurityContext: {}
+
+  ## Container Security Context for the default backend container
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   ##
   securityContext: {}

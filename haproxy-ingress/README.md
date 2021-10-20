@@ -117,6 +117,7 @@ Parameter | Description | Default
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
+`controller.haproxy.securityContext` | Security context settings for the haproxy container | `{}`
 `controller.healthzPort` | The haproxy health check (monitoring) port | `10253`
 `controller.livenessProbe.path` | The liveness probe path | `/healthz`
 `controller.livenessProbe.port` | The livneness probe port | `10253`
@@ -135,8 +136,9 @@ Parameter | Description | Default
 `controller.podAnnotations` | Annotations for the haproxy-ingress-controller pod | `{}`
 `controller.podLabels` | Labels for the haproxy-ingress-controller pod | `{}`
 `controller.podAffinity` | Add affinity to the controller pods to control scheduling | `{}`
+`controller.podSecurityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
 `controller.priorityClassName` | Priority Class to be used | ``
-`controller.securityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
+`controller.securityContext` | Security context settings for the haproxy-ingress-controller container | `{}`
 `controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
 `controller.dnsPolicy` | Optionally change this to ClusterFirstWithHostNet in case you have 'hostNetwork: true' | `ClusterFirst`
@@ -197,6 +199,7 @@ Parameter | Description | Default
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`
 `controller.metrics.extraArgs` | Extra arguments to the prometheus-exporter |  `{}`
 `controller.metrics.resources` | prometheus-exporter container resource requests & limits |  `{}`
+`controller.metrics.securityContext` | Security context settings for sidecar metrics container | `{}`
 `controller.metrics.service.annotations` | annotations for metrics service | `{}`
 `controller.metrics.service.clusterIP` | internal metrics cluster service IP | `nil`
 `controller.metrics.service.externalIPs` | list of IP addresses at which the metrics service is available | `[]`
@@ -215,6 +218,7 @@ Parameter | Description | Default
 `controller.logs.image.tag` | access-logs image tag | `latest`
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
 `controller.logs.extraVolumeMounts` | extra volume mounts for the access-logs container | `[]`
+`controller.logs.securityContext` | Security context settings for sidecar logs container | `{}`
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
 `defaultBackend.enabled` | whether to use the default backend component | `false`
 `defaultBackend.name` | name of the default backend component | `default-backend`
@@ -228,6 +232,7 @@ Parameter | Description | Default
 `defaultBackend.podLabels` | Labels for the default backend pod | `{}`
 `defaultBackend.replicaCount` | the number of replicas to deploy (when `controller.kind` is `Deployment`) | `1`
 `defaultBackend.minAvailable` | PodDisruptionBudget minimum available default backend pods | `1`
+`defaultBackend.podSecurityContext` | custom POD security context for the default backend | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`
 `defaultBackend.resources` | default backend pod resources | _see defaults below_
 `defaultBackend.resources.limits.cpu` | default backend cpu resources limit | `10m`
 `defaultBackend.resources.limits.memory` | default backend memory resources limit | `20Mi`
@@ -239,4 +244,4 @@ Parameter | Description | Default
 `defaultBackend.service.loadBalancerSourceRanges` |  | `[]`
 `defaultBackend.service.servicePort` | the port number exposed by the metrics service | `1936`
 `defaultBackend.service.type` | type of controller service to create | `ClusterIP`
-`defaultBackend.securityContext` | custom POD security context for the default backend | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`
+`defaultBackend.securityContext` | custom POD security context for the default backend container | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`

@@ -115,6 +115,10 @@ spec:
       lifecycle:
         {{- toYaml .Values.controller.lifecycle | nindent 8 }}
 {{- end }}
+{{- if .Values.controller.securityContext }}
+      securityContext:
+        {{- toYaml .Values.controller.securityContext | nindent 8 }}
+{{- end }}
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy
       image: "{{ .Values.controller.haproxy.image.repository }}:{{ .Values.controller.haproxy.image.tag }}"
@@ -147,6 +151,10 @@ spec:
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
+{{- if .Values.controller.haproxy.securityContext }}
+      securityContext:
+        {{- toYaml .Values.controller.haproxy.securityContext | nindent 8 }}
+{{- end }}
 {{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
@@ -156,12 +164,26 @@ spec:
         - name: udp
           containerPort: 514
           protocol: UDP
+      readinessProbe:
+        tcpSocket:
+          port: 514
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        tcpSocket:
+          port: 514
+        initialDelaySeconds: 15
+        periodSeconds: 20
 {{- if .Values.controller.logs.extraVolumeMounts }}
       volumeMounts:
         {{- toYaml .Values.controller.logs.extraVolumeMounts | nindent 8 }}
 {{- end }}
       resources:
         {{- toYaml .Values.controller.logs.resources | nindent 8 }}
+{{- if .Values.controller.logs.securityContext }}
+      securityContext:
+        {{- toYaml .Values.controller.logs.securityContext | nindent 8 }}
+{{- end }}
 {{- end }}
 {{- if and .Values.controller.stats.enabled .Values.controller.metrics.enabled (not .Values.controller.metrics.embedded) }}
     - name: prometheus-exporter
@@ -187,6 +209,10 @@ spec:
           port: metrics
       resources:
         {{- toYaml .Values.controller.metrics.resources | nindent 8 }}
+{{- if .Values.controller.metrics.securityContext }}
+      securityContext:
+        {{- toYaml .Values.controller.metrics.securityContext | nindent 8 }}
+{{- end }}
 {{- end }}
 {{- if .Values.controller.extraContainers }}
     {{- toYaml .Values.controller.extraContainers | nindent 4 }}
@@ -232,9 +258,9 @@ spec:
 {{- if .Values.controller.priorityClassName }}
   priorityClassName: {{ .Values.controller.priorityClassName | quote }}
 {{- end }}
-{{- if .Values.controller.securityContext }}
+{{- if .Values.controller.podSecurityContext }}
   securityContext:
-    {{- toYaml .Values.controller.securityContext | nindent 4 }}
+    {{- toYaml .Values.controller.podSecurityContext | nindent 4 }}
 {{- end }}
 {{- end }}
 
