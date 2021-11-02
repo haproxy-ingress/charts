@@ -111,6 +111,10 @@ Parameter | Description | Default
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
 `controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
+`controller.ingressClassResource.enabled` | create an [IngressClass](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) resource for this controller | `false`
+`controller.ingressClassResource.default` | mark the IngressClass as [default](https://kubernetes.io/docs/concepts/services-networking/ingress/#default-ingress-class) for the cluster | `false`
+`controller.ingressClassResource.controllerClass` | customizes the [controller name](https://haproxy-ingress.github.io/docs/configuration/command-line/#ingress-class) | `''`
+`controller.ingressClassResource.parameters` |  | `{}`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
 `controller.haproxy.image.tag` | haproxy container image tag | `2.3.14-alpine`

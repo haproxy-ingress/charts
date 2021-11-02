@@ -1,0 +1,22 @@
+{{- if .Values.controller.ingressClassResource.enabled }}
+{{- if semverCompare "=1.18-0" .Capabilities.KubeVersion.GitVersion }}
+apiVersion: networking.k8s.io/v1beta1
+{{- else }}
+apiVersion: networking.k8s.io/v1
+{{- end }}
+kind: IngressClass
+metadata:
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ .Values.controller.ingressClass }}
+{{- if .Values.controller.ingressClassResource.default }}
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+{{- end }}
+spec:
+  controller: haproxy-ingress.github.io/controller{{ with .Values.controller.ingressClassResource.controllerClass }}/{{ . }}{{ end }}
+{{- with .Values.controller.ingressClassResource.parameters }}
+  parameters:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+{{- end }}

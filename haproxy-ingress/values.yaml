@@ -65,6 +65,15 @@ controller:
   ##
   ingressClass: haproxy
 
+  ## IngressClass resource for this controller
+  ## Uses ingressClass as name for the IngressClass
+  ##
+  ingressClassResource:
+    enabled: false
+    default: false
+    controllerClass: ''
+    parameters: {}
+
   healthzPort: 10253
 
   ## Liveness and readiness probe values

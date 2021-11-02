@@ -58,6 +58,9 @@ spec:
 {{- if or .Values.defaultBackend.enabled .Values.controller.defaultBackendService }}
         - --default-backend-service={{ if .Values.defaultBackend.enabled }}{{ .Release.Namespace }}/{{ include "haproxy-ingress.defaultBackend.fullname" . }}{{ else }}{{ .Values.controller.defaultBackendService }}{{ end }}
 {{- end }}
+{{- with .Values.controller.ingressClassResource.controllerClass }}
+        - --controller-class={{ . }}
+{{- end }}
 {{- range $key, $value := .Values.controller.extraArgs }}
   {{- if $value }}
         - --{{ $key }}={{ $value }}
