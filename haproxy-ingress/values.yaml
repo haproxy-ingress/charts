@@ -426,6 +426,9 @@ controller:
     ##
     securityContext: {}
 
+    # port used by syslog container
+    port: 514
+
 # Custom default 404 backend
 defaultBackend:
   enabled: false
