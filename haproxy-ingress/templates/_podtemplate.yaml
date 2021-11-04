@@ -165,16 +165,16 @@ spec:
       imagePullPolicy: "{{ .Values.controller.logs.image.pullPolicy }}"
       ports:
         - name: udp
-          containerPort: 514
+          containerPort: {{ .Values.controller.logs.port }}
           protocol: UDP
       readinessProbe:
         tcpSocket:
-          port: 514
+          port: {{ .Values.controller.logs.port }}
         initialDelaySeconds: 5
         periodSeconds: 10
       livenessProbe:
         tcpSocket:
-          port: 514
+          port: {{ .Values.controller.logs.port }}
         initialDelaySeconds: 15
         periodSeconds: 20
 {{- if .Values.controller.logs.extraVolumeMounts }}
