@@ -147,6 +147,7 @@ Parameter | Description | Default
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
 `controller.dnsPolicy` | Optionally change this to ClusterFirstWithHostNet in case you have 'hostNetwork: true' | `ClusterFirst`
 `controller.terminationGracePeriodSeconds` | How much to wait before terminating a pod (in seconds) | `60`
+`controller.topologySpreadConstraints` | Configures topology spread constraints in the controller pod | `{}`
 `controller.lifecycle` | Lifecycle hooks for controller container | `{}`
 `controller.kind` | Type of deployment, DaemonSet or Deployment | `Deployment`
 `controller.tcp` | TCP [service ConfigMap](https://haproxy-ingress.github.io/docs/configuration/command-line/#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`

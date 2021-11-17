@@ -244,6 +244,10 @@ spec:
 {{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
+{{- if .Values.controller.topologySpreadConstraints }}
+  topologySpreadConstraints:
+    {{- toYaml .Values.controller.topologySpreadConstraints | nindent 4 }}
+{{- end }}
   dnsPolicy: {{ .Values.controller.dnsPolicy }}
   hostNetwork: {{ .Values.controller.hostNetwork }}
 {{- if .Values.controller.nodeSelector }}
