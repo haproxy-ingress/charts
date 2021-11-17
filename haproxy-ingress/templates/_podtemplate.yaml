@@ -244,6 +244,7 @@ spec:
 {{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
+  topologySpreadConstraints: {{ .Values.controller.topologySpreadConstraints }}
   dnsPolicy: {{ .Values.controller.dnsPolicy }}
   hostNetwork: {{ .Values.controller.hostNetwork }}
 {{- if .Values.controller.nodeSelector }}

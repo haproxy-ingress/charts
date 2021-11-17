@@ -140,6 +140,19 @@ controller:
   # How many seconds to wait before terminating a pod.
   terminationGracePeriodSeconds: 60
 
+  # topology spread constraints to be added to the controller pods
+  # - the example below may need match labels adjusted but would
+  #   cause the pods to be spread across all available pods
+  # (requires kubernetes v1.19 or later)
+  topologySpreadConstraints: {}
+  #  - maxSkew: 1
+  #    topologyKey: kubernetes.io/hostname
+  #    whenUnsatisfiable: ScheduleAnyway
+  #    labelSelector:
+  #      matchLabels:
+  #        app.kubernetes.io/name: haproxy-ingress
+  #        app.kubernetes.io/instance: haproxy
+
   # Configure container lifecycle. When scaling replicas down this can be
   # used to prevent controller container from terminating quickly and drop in-flight requests.
   # For example, when the controller runs behind Network Load Balancer this can be used
