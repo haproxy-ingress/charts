@@ -123,8 +123,9 @@ Parameter | Description | Default
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
 `controller.haproxy.securityContext` | Security context settings for the haproxy container | `{}`
 `controller.healthzPort` | The haproxy health check (monitoring) port | `10253`
+`controller.legacySecurityContext` | Defines if `controller.securityContext` should be applied to the controller's pod (legacy: true) or container (legacy: false)  | `true`
 `controller.livenessProbe.path` | The liveness probe path | `/healthz`
-`controller.livenessProbe.port` | The livneness probe port | `10253`
+`controller.livenessProbe.port` | The liveness probe port | `10253`
 `controller.livenessProbe.failureThreshold` | The livneness probe failure threshold | `3`
 `controller.livenessProbe.initialDelaySeconds` | The livneness probe initial delay (in seconds) | `60`
 `controller.livenessProbe.periodSeconds` | The livneness probe period (in seconds) | `10`
@@ -142,7 +143,7 @@ Parameter | Description | Default
 `controller.podAffinity` | Add affinity to the controller pods to control scheduling | `{}`
 `controller.podSecurityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
 `controller.priorityClassName` | Priority Class to be used | ``
-`controller.securityContext` | Security context settings for the haproxy-ingress-controller container | `{}`
+`controller.securityContext` | Security context settings for the haproxy-ingress-controller pod or container, see `controller.legacySecurityContext` | `{}`
 `controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
 `controller.dnsPolicy` | Optionally change this to ClusterFirstWithHostNet in case you have 'hostNetwork: true' | `ClusterFirst`

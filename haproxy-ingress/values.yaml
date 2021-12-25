@@ -124,6 +124,10 @@ controller:
   securityContext: {}
   #  readOnlyRootFilesystem: true
 
+  # Defines if controller.securityContext should be applied in the
+  # controller's pod (if legacy: true) or the container (if legacy: false)
+  legacySecurityContext: true
+
   # ConfigMap to configure haproxy ingress
   config: {}
 

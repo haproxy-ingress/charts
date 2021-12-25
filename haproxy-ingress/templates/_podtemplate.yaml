@@ -118,7 +118,7 @@ spec:
       lifecycle:
         {{- toYaml .Values.controller.lifecycle | nindent 8 }}
 {{- end }}
-{{- if .Values.controller.securityContext }}
+{{- if and (not .Values.controller.legacySecurityContext) .Values.controller.securityContext }}
       securityContext:
         {{- toYaml .Values.controller.securityContext | nindent 8 }}
 {{- end }}
@@ -270,6 +270,9 @@ spec:
 {{- if .Values.controller.podSecurityContext }}
   securityContext:
     {{- toYaml .Values.controller.podSecurityContext | nindent 4 }}
+{{- else if and .Values.controller.legacySecurityContext .Values.controller.securityContext }}
+  securityContext:
+    {{- toYaml .Values.controller.securityContext | nindent 4 }}
 {{- end }}
 {{- end }}
 
