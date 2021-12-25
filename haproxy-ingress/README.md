@@ -126,7 +126,7 @@ Parameter | Description | Default
 `controller.livenessProbe.path` | The liveness probe path | `/healthz`
 `controller.livenessProbe.port` | The livneness probe port | `10253`
 `controller.livenessProbe.failureThreshold` | The livneness probe failure threshold | `3`
-`controller.livenessProbe.initialDelaySeconds` | The livneness probe initial delay (in seconds) | `10`
+`controller.livenessProbe.initialDelaySeconds` | The livneness probe initial delay (in seconds) | `60`
 `controller.livenessProbe.periodSeconds` | The livneness probe period (in seconds) | `10`
 `controller.livenessProbe.successThreshold` | The livneness probe success threshold | `1`
 `controller.livenessProbe.timeoutSeconds` | The livneness probe timeout (in seconds) | `1`
