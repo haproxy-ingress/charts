@@ -442,6 +442,10 @@ controller:
     # port used by syslog container
     port: 514
 
+    # defines as true to enable TCP based liveness and readiness probes
+    # in the logs container
+    probes: false
+
 # Custom default 404 backend
 defaultBackend:
   enabled: false

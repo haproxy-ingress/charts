@@ -167,6 +167,7 @@ spec:
         - name: udp
           containerPort: {{ .Values.controller.logs.port }}
           protocol: UDP
+{{- if .Values.controller.logs.probes }}
       readinessProbe:
         tcpSocket:
           port: {{ .Values.controller.logs.port }}
@@ -177,6 +178,7 @@ spec:
           port: {{ .Values.controller.logs.port }}
         initialDelaySeconds: 15
         periodSeconds: 20
+{{- end }}
 {{- if .Values.controller.logs.extraVolumeMounts }}
       volumeMounts:
         {{- toYaml .Values.controller.logs.extraVolumeMounts | nindent 8 }}

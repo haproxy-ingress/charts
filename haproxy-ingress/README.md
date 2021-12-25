@@ -225,6 +225,7 @@ Parameter | Description | Default
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
 `controller.logs.extraVolumeMounts` | extra volume mounts for the access-logs container | `[]`
 `controller.logs.port` | port used by sidecar logs container | `514`
+`controller.logs.probes` | enable tcp based liveness and readiness probes in the log container | `false`
 `controller.logs.securityContext` | Security context settings for sidecar logs container | `{}`
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
 `defaultBackend.enabled` | whether to use the default backend component | `false`
