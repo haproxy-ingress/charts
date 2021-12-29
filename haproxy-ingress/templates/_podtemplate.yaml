@@ -297,6 +297,9 @@ spec:
 {{- if .Values.controller.stats.enabled }}
 - name: stats
   containerPort: {{ .Values.controller.stats.port }}
+  {{- if .Values.controller.stats.hostPort }}
+  hostPort: {{ .Values.controller.stats.hostPort }}
+  {{- end }}
   protocol: TCP
 {{- end }}
 - name: healthz
