@@ -311,6 +311,7 @@ controller:
   stats:
     enabled: false
     port: 1936
+    hostPort: ~
 
     service:
       annotations: {}
