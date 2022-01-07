@@ -414,6 +414,24 @@ controller:
     #   no-maint:
     #   - empty
 
+    metrics:
+      metricRelabelings: []
+      relabelings: []
+      # - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+      #   regex: ^(.*)$
+      #   targetLabel: instance
+      #   replacement: $1
+      #   action: replace
+
+    ctrlMetrics:
+      metricRelabelings: []
+      relabelings: []
+      # - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+      #   regex: ^(.*)$
+      #   targetLabel: instance
+      #   replacement: $1
+      #   action: replace
+
   ## access-logs side-car container for collecting haproxy logs
   ## Enabling this will configure haproxy to emit logs to syslog localhost:514 UDP port.
   ## The access-logs container starts a syslog process that listens on UDP 514 and outputs to stdout.

@@ -23,10 +23,26 @@ spec:
     params:
       {{- toYaml .Values.controller.serviceMonitor.params | nindent 6 }}
     {{- end }}
+    {{- if .Values.controller.serviceMonitor.metrics.metricRelabelings }}
+    metricRelabelings:
+      {{- toYaml .Values.controller.serviceMonitor.metrics.metricRelabelings | nindent 6 }}
+    {{- end }}
+    {{- if .Values.controller.serviceMonitor.metrics.relabelings }}
+    relabelings:
+      {{- toYaml .Values.controller.serviceMonitor.metrics.relabelings | nindent 6 }}
+    {{- end }}
   - honorLabels: {{ .Values.controller.serviceMonitor.honorLabels }}
     interval: {{ .Values.controller.serviceMonitor.interval }}
     path: /metrics
     port: ctrl-metrics
+    {{- if .Values.controller.serviceMonitor.ctrlMetrics.metricRelabelings }}
+    metricRelabelings:
+      {{- toYaml .Values.controller.serviceMonitor.ctrlMetrics.metricRelabelings | nindent 6 }}
+    {{- end }}
+    {{- if .Values.controller.serviceMonitor.ctrlMetrics.relabelings }}
+    relabelings:
+      {{- toYaml .Values.controller.serviceMonitor.ctrlMetrics.relabelings | nindent 6 }}
+    {{- end }}
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
