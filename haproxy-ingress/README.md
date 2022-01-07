@@ -189,6 +189,7 @@ Parameter | Description | Default
 `controller.service.type` | type of controller service to create | `LoadBalancer`
 `controller.stats.enabled` | whether to enable exporting stats |  `false`
 `controller.stats.port` | The port number used haproxy-ingress-controller for haproxy statistics | `1936`
+`controller.stats.hostPort` | The host port number used haproxy-ingress-controller for haproxy statistics | `~`
 `controller.stats.service.annotations` | annotations for stats service | `{}`
 `controller.stats.service.clusterIP` | internal stats cluster service IP | `nil`
 `controller.stats.service.externalIPs` | list of IP addresses at which the stats service is available | `[]`
@@ -220,6 +221,10 @@ Parameter | Description | Default
 `controller.serviceMonitor.honorLabels` | HonorLabels chooses the metric's labels on collisions with target labels | `true`
 `controller.serviceMonitor.interval` | Prometheus scrape interval | `10s`
 `controller.serviceMonitor.params` | Use extra parameters from Prometheus when requesting metrics | `false`
+`controller.serviceMonitor.metrics.metricRelabelings` | Metric relabel configs to apply to samples before ingestion for proxy metric | `[]`
+`controller.serviceMonitor.metrics.relabelings` | Relabel configs to apply to samples before ingestion for proxy metric | `[]`
+`controller.serviceMonitor.ctrlMetrics.metricRelabelings` | Metric relabel configs to apply to samples before ingestion for controller metric | `[]`
+`controller.serviceMonitor.ctrlMetrics.relabelings` | Relabel configs to apply to samples before ingestion for controller metric | `[]`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
 `controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`
 `controller.logs.image.tag` | access-logs image tag | `latest`
