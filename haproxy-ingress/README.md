@@ -219,6 +219,7 @@ Parameter | Description | Default
 `controller.serviceMonitor.annotations` | Annotations for ServiceMonitor resource | `{}`
 `controller.serviceMonitor.honorLabels` | HonorLabels chooses the metric's labels on collisions with target labels | `true`
 `controller.serviceMonitor.interval` | Prometheus scrape interval | `10s`
+`controller.serviceMonitor.metricRelabelings` | Prometheus metric_relabel_configs for tweaking scraped metrics | `false`
 `controller.serviceMonitor.params` | Use extra parameters from Prometheus when requesting metrics | `false`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
 `controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`
