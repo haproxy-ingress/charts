@@ -12,7 +12,6 @@ rules:
       - configmaps
       - endpoints
       - nodes
-      - pods
       - secrets
     verbs:
       - list
@@ -26,6 +25,7 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - pods
       - services
     verbs:
       - get
