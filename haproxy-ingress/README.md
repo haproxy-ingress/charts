@@ -154,6 +154,7 @@ Parameter | Description | Default
 `controller.tcp` | TCP [service ConfigMap](https://haproxy-ingress.github.io/docs/configuration/command-line/#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`
 `controller.enableStaticPorts` | Set to `false` to only rely on ports from `controller.tcp` | `true`
 `controller.daemonset.useHostPort` | Set to true to use host ports 80 and 443 | `false`
+`controller.daemonset.hostIP` | Change the IP the host ports will bind to | `nil`
 `controller.daemonset.hostPorts.http` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for http | `"80"`
 `controller.daemonset.hostPorts.https` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for https | `"443"`
 `controller.daemonset.hostPorts.tcp` | If `controller.daemonset.useHostPort` is `true` use hostport for these ports from `tcp` | `[]`
