@@ -33,6 +33,6 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: haproxy-ingress
+      {{- include "haproxy-ingress.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: metrics
 {{- end }}
