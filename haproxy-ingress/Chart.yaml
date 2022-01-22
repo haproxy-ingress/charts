@@ -2,8 +2,8 @@ apiVersion: v2
 name: haproxy-ingress
 description: Ingress controller for HAProxy loadbalancer
 type: application
-version: 0.12.11
-appVersion: v0.12.11
+version: 0.12.12
+appVersion: v0.12.12
 icon: https://haproxy-ingress.github.io/favicons/favicon-256.png
 keywords:
   - haproxy
