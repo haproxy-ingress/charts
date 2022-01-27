@@ -280,13 +280,23 @@ spec:
 {{- if .Values.controller.enableStaticPorts }}
 - name: http
   containerPort: 80
-  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
+  {{- if eq .Values.controller.kind "DaemonSet" }}
+    {{- if .Values.controller.daemonset.hostIP }}
+  hostIP: {{ .Values.controller.daemonset.hostIP }}
+    {{- end }}
+    {{- if and .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.http }}
   hostPort: {{ .Values.controller.daemonset.hostPorts.http }}
+    {{- end }}
   {{- end }}
 - name: https
   containerPort: 443
-  {{- if and (eq .Values.controller.kind "DaemonSet") .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
+  {{- if eq .Values.controller.kind "DaemonSet" }}
+    {{- if .Values.controller.daemonset.hostIP }}
+  hostIP: {{ .Values.controller.daemonset.hostIP }}
+    {{- end }}
+    {{- if and .Values.controller.daemonset.useHostPort .Values.controller.daemonset.hostPorts.https }}
   hostPort: {{ .Values.controller.daemonset.hostPorts.https }}
+    {{- end }}
   {{- end }}
 {{- end }}
 {{- if and .Values.controller.metrics.enabled .Values.controller.metrics.embedded }}
@@ -308,10 +318,15 @@ spec:
 - name: "{{ $key }}-tcp"
   containerPort: {{ $key }}
   protocol: TCP
-  {{- if and (eq $.Values.controller.kind "DaemonSet") $.Values.controller.daemonset.useHostPort }}
-    {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
-      {{- if eq $key $p }}
+  {{- if eq $.Values.controller.kind "DaemonSet" }}
+    {{- if $.Values.controller.daemonset.hostIP }}
+  hostIP: {{ $.Values.controller.daemonset.hostIP }}
+    {{- end }}
+    {{- if $.Values.controller.daemonset.useHostPort }}
+      {{- range $p := $.Values.controller.daemonset.hostPorts.tcp }}
+        {{- if eq $key $p }}
   hostPort: {{ $key }}
+        {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}

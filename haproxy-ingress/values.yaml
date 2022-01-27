@@ -71,7 +71,7 @@ controller:
   ingressClassResource:
     enabled: false
     default: false
-    controllerClass: ''
+    controllerClass: ""
     parameters: {}
 
   healthzPort: 10253
@@ -176,10 +176,16 @@ controller:
   # optionally disable static ports, including the default 80 and 443
   enableStaticPorts: true
 
-  ## Use host ports 80 and 443
+  ## DaemonSet configuration
   daemonset:
+    # Enable binding ports to the host machine
     useHostPort: false
 
+    # IP to bind host ports to
+    hostIP: null
+    # hostIP: 10.1.0.1
+
+    # Ports to bind to the host
     hostPorts:
       http: 80
       https: 443
