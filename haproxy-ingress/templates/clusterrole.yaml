@@ -19,6 +19,7 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - namespaces
       - nodes
     verbs:
       - get
@@ -42,6 +43,7 @@ rules:
       - list
       - watch
   - apiGroups:
+      - gateway.networking.k8s.io
       - networking.x-k8s.io
     resources:
       - gateways
