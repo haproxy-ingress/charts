@@ -52,8 +52,9 @@ controller:
   ## Additional containers that can initialize the pod.
   initContainers: []
 
-  # custom haproxy template
-  template: ""
+  ## Custom haproxy template
+  ## if set to true loads custom_template/haproxy.tmpl into the custom template configmap
+  template: false
 
   ## A manually deployed default backend service
   ## Ignored if defaultBackend.enabled = true

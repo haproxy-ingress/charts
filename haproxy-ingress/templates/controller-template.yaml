@@ -8,6 +8,5 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   haproxy.tmpl: |-
-{{ .Values.controller.template | indent 4 }}
-{{/* .Files.Get "haproxy.tmpl" | indent 4 */}}
+{{ (.Files.Glob "custom_template/haproxy.tmpl").AsConfig | indent 2 }}
 {{- end }}
