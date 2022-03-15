@@ -7,6 +7,5 @@ metadata:
   name: {{ include "haproxy-ingress.fullname" . }}-template
   namespace: {{ .Release.Namespace }}
 data:
-  haproxy.tmpl: |-
 {{ (.Files.Glob "custom_template/haproxy.tmpl").AsConfig | indent 2 }}
 {{- end }}
