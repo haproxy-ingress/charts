@@ -53,7 +53,7 @@ controller:
   initContainers: []
 
   ## Custom haproxy template
-  ## if set to true loads custom_template/haproxy.tmpl into the custom template configmap
+  ## if set to true loads haproxy.tmpl into the custom template configmap
   template: false
 
   ## A manually deployed default backend service
