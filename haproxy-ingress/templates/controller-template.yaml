@@ -8,9 +8,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   haproxy.tmpl: |
-{{- if .Values.controller.templateFile -}}
-{{ .Files.Get .Values.controller.templateFile | indent 4 }}
+{{- if .Values.controller.templateFile }}
+    {{- .Files.Get .Values.controller.templateFile | nindent 4 }}
 {{- else }}
-{{ .Values.controller.template | indent 4 }}
+    {{- .Values.controller.template | nindent 4 }}
 {{- end }}
 {{- end }}

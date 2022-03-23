@@ -109,7 +109,7 @@ Parameter | Description | Default
 `controller.extraContainers` | extra containers that to the haproxy-ingress-controller | `[]`
 `controller.initContainers` | extra containers that can initialize the haproxy-ingress-controller | `[]`
 `controller.template` | custom template for haproxy-ingress-controller | `{}`
-`controller.templateFile` | custom haproxy template path for haproxy-ingress-controller | `{}`
+`controller.templateFile` | custom haproxy template path for haproxy-ingress-controller | `""`
 `controller.defaultBackendService` | backend service to use if defaultBackend.enabled==false | `""`
 `controller.ingressClass` | name of the ingress class to route through this controller | `haproxy`
 `controller.ingressClassResource.enabled` | create an [IngressClass](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) resource for this controller | `false`
