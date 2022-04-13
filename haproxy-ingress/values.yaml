@@ -133,6 +133,12 @@ controller:
   # ConfigMap to configure haproxy ingress
   config: {}
 
+  # Custom ConfigMap to be mounted by the controller
+  # if set to true files in custom_map/* will be added to a ConfigMap and will be available in the controller pods
+  # in /etc/custom_map/
+  # An example usage is to add lua scripts or files containing matching patterns to be used in haproxy
+  customMap: false
+
   # Required for use with CNI based kubernetes installations (such as ones set up by kubeadm),
   # since CNI and hostport don't mix yet. Can be deprecated once https://github.com/kubernetes/kubernetes/issues/23920
   # is merged
