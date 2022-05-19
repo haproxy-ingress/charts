@@ -7,5 +7,5 @@ metadata:
   name: {{ include "haproxy-ingress.fullname" . }}-custom-map
   namespace: {{ .Release.Namespace }}
 data:
-{{ (.Files.Glob "custom_map/*").AsConfig | indent 4}}
+  {{- .Values.controller.customMapData | nindent 2 }}
 {{- end }}

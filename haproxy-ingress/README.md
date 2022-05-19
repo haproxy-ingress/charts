@@ -146,7 +146,8 @@ Parameter | Description | Default
 `controller.priorityClassName` | Priority Class to be used | ``
 `controller.securityContext` | Security context settings for the haproxy-ingress-controller pod or container, see `controller.legacySecurityContext` | `{}`
 `controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
-`controller.customMap` | set `true` to load custom files to the controller pod | `false`
+`controller.customMap` | set `true` to create custom ConfigMap to mount in the controller pod | `false`
+`controller.customMapData` | data to be added to custom ConfigMap | `""`
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
 `controller.dnsPolicy` | Optionally change this to ClusterFirstWithHostNet in case you have 'hostNetwork: true' | `ClusterFirst`
 `controller.terminationGracePeriodSeconds` | How much to wait before terminating a pod (in seconds) | `60`
