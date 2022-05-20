@@ -108,6 +108,10 @@ spec:
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
 {{- end }}
+{{- if and .Values.controller.customFiles (not .Values.controller.haproxy.enabled) }}
+        - name: haproxy-custom-files
+          mountPath: /etc/haproxy-custom-files
+{{- end }}
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -151,6 +155,10 @@ spec:
           name: lib
         - mountPath: /var/run/haproxy
           name: run
+{{- if .Values.controller.customFiles }}
+        - name: haproxy-custom-files
+          mountPath: /etc/haproxy-custom-files
+{{- end }}
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
@@ -240,6 +248,11 @@ spec:
     - name: haproxy-template
       configMap:
         name: {{ include "haproxy-ingress.fullname" . }}-template
+{{- end }}
+{{- if .Values.controller.customFiles }}
+    - name: haproxy-custom-files
+      configMap:
+        name: {{ include "haproxy-ingress.fullname" . }}-custom-files
 {{- end }}
 {{- if .Values.controller.extraVolumes }}
     {{- toYaml .Values.controller.extraVolumes | nindent 4 }}

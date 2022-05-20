@@ -1,0 +1,13 @@
+{{- if .Values.controller.customFiles }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}-custom-files
+  namespace: {{ .Release.Namespace }}
+data:
+{{- range $key, $value := .Values.controller.customFiles }}
+  {{ $key }}: {{ $value | toYaml | indent 2 | trim  }}
+{{- end }}
+{{- end }}
