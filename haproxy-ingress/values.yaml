@@ -134,7 +134,7 @@ controller:
   config: {}
 
   # Custom files to be mounted to the controller(s)
-  # if populated a ConfigMap will be created and mounted in the controller pods in /etc/haproxy-custom
+  # if populated a ConfigMap will be created and mounted in the controller pods in /etc/haproxy-custom-files
   # An example usage is to add lua scripts or files containing matching patterns to be used in haproxy
   customFiles: {}
   #  hello.lua: |
