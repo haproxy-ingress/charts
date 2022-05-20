@@ -108,9 +108,9 @@ spec:
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
 {{- end }}
-{{- if .Values.controller.customMap }}
-        - name: haproxy-custom-map
-          mountPath: /etc/custom_map
+{{- if .Values.controller.customFiles }}
+        - name: haproxy-custom-files
+          mountPath: /etc/haproxy-custom
 {{- end }}
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
@@ -245,10 +245,10 @@ spec:
       configMap:
         name: {{ include "haproxy-ingress.fullname" . }}-template
 {{- end }}
-{{- if .Values.controller.customMap }}
-    - name: haproxy-custom-map
+{{- if .Values.controller.customFiles }}
+    - name: haproxy-custom-files
       configMap:
-        name: {{ include "haproxy-ingress.fullname" . }}-custom-map
+        name: {{ include "haproxy-ingress.fullname" . }}-custom-files
 {{- end }}
 {{- if .Values.controller.extraVolumes }}
     {{- toYaml .Values.controller.extraVolumes | nindent 4 }}
