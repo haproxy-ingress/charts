@@ -91,3 +91,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
     {{- default "default" .Values.serviceAccount.name }}
   {{- end }}
 {{- end }}
+
+
+{{/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  *
+  * Construct the path for publish-service
+  * 
+  */}}
+{{- define "haproxy-ingress.controller.publishServicePath" -}}
+  {{- if .Values.controller.publishService.pathOverride }}
+    {{- .Values.controller.publishService.pathOverride | trimSuffix "-" }}
+  {{- else }}
+    {{- printf "%s/%s" "$(POD_NAMESPACE)" (include "haproxy-ingress.fullname" .) | trimSuffix "-" }}
+  {{- end }}
+{{- end }}
