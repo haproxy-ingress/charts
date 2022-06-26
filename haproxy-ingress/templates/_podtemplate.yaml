@@ -61,6 +61,9 @@ spec:
 {{- with .Values.controller.ingressClassResource.controllerClass }}
         - --controller-class={{ . }}
 {{- end }}
+{{- if and .Values.controller.publishService.enabled (not (hasKey .Values.controller.extraArgs "publish-service")) }}
+        - --publish-service={{ include "haproxy-ingress.controller.publishServicePath" . }}
+{{- end }}
 {{- range $key, $value := .Values.controller.extraArgs }}
   {{- if $value }}
         - --{{ $key }}={{ $value }}
