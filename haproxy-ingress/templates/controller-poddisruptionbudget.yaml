@@ -8,6 +8,7 @@ metadata:
   labels:
     {{- include "haproxy-ingress.labels" . | nindent 4 }}
   name: {{ include "haproxy-ingress.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
