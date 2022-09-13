@@ -140,6 +140,7 @@ Parameter | Description | Default
 `controller.readinessProbe.periodSeconds` | The readiness probe period (in seconds) | `10`
 `controller.readinessProbe.successThreshold` | The readiness probe success threshold | `1`
 `controller.readinessProbe.timeoutSeconds` | The readiness probe timeout (in seconds) | `1`
+`controller.annotations` | Annotations to be added to DaemonSet/Deployment definitions | `{}`
 `controller.podAnnotations` | Annotations for the haproxy-ingress-controller pod | `{}`
 `controller.podLabels` | Labels for the haproxy-ingress-controller pod | `{}`
 `controller.podAffinity` | Add affinity to the controller pods to control scheduling | `{}`
