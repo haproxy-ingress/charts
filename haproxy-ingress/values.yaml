@@ -98,6 +98,10 @@ controller:
     successThreshold: 1
     timeoutSeconds: 1
 
+  ## Annotations to be added to DaemonSet/Deployment definitions
+  ##
+  annotations: {}
+
   ## Annotations to be added to controller pods
   ##
   podAnnotations: {}
