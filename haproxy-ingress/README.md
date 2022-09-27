@@ -26,7 +26,7 @@ Installation tips:
 
 * All resources will be created in the current namespace. Add `--create-namespace --namespace=<ns>` command-line options to install HAProxy Ingress in another one
 * The default configuration installs HAProxy Ingress as a deployment, add `--set controller.kind=DaemonSet` command-line option to install as a DaemonSet
-* The default service type is `LoadBalacer`, add `--set controller.service.type=<type>` command-line option to change to `ClusterIP` or `NodePort`
+* The default service type is `LoadBalancer`, add `--set controller.service.type=<type>` command-line option to change to `ClusterIP` or `NodePort`
 * Ingress status will not report the IP address of the service unless you add `--set controller.publishService.enabled=true` command line option
 * If the release name is `haproxy-ingress`, the resource names will not add the release name prefix and will have a shorter name
 * Chart versions are in sync with minor HAProxy Ingress versions, so:
