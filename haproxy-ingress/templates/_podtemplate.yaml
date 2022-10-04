@@ -237,7 +237,7 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumes }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumes .Values.controller.customFiles }}
   volumes:
 {{- if .Values.controller.haproxy.enabled }}
     - name: etc
