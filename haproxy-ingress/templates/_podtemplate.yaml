@@ -97,7 +97,7 @@ spec:
 {{- if .Values.controller.extraEnvs }}
         {{- toYaml .Values.controller.extraEnvs | nindent 8 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumeMounts }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumeMounts .Values.controller.customFiles }}
       volumeMounts:
 {{- if .Values.controller.haproxy.enabled }}
         - mountPath: /etc/haproxy
@@ -237,7 +237,7 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumes }}
+{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumes .Values.controller.customFiles }}
   volumes:
 {{- if .Values.controller.haproxy.enabled }}
     - name: etc
