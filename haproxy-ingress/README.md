@@ -100,7 +100,7 @@ Parameter | Description | Default
 `serviceAccount.name` | ServiceAccount to be used | ``
 `controller.name` | name of the controller component | `controller`
 `controller.image.repository` | controller container image repository | `quay.io/jcmoraisjr/haproxy-ingress`
-`controller.image.tag` | controller container image tag | `v0.14.0-beta.2`
+`controller.image.tag` | controller container image tag | `v0.14.0-beta.3`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
@@ -119,7 +119,7 @@ Parameter | Description | Default
 `controller.ingressClassResource.parameters` |  | `{}`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
-`controller.haproxy.image.tag` | haproxy container image tag | `2.4.18-alpine`
+`controller.haproxy.image.tag` | haproxy container image tag | `2.4.19-alpine`
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
