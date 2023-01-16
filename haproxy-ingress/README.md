@@ -99,7 +99,8 @@ Parameter | Description | Default
 `serviceAccount.create` | If true, create serviceAccount | `true`
 `serviceAccount.name` | ServiceAccount to be used | ``
 `controller.name` | name of the controller component | `controller`
-`controller.image.repository` | controller container image repository | `quay.io/jcmoraisjr/haproxy-ingress`
+`controller.image.registry` | controller container image registry | `quay.io`
+`controller.image.repository` | controller container image repository | `jcmoraisjr/haproxy-ingress`
 `controller.image.tag` | controller container image tag | `v0.14.0`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
@@ -118,6 +119,7 @@ Parameter | Description | Default
 `controller.ingressClassResource.controllerClass` | customizes the [controller name](https://haproxy-ingress.github.io/docs/configuration/command-line/#ingress-class) | `''`
 `controller.ingressClassResource.parameters` |  | `{}`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
+`controller.haproxy.image.registry` | haproxy container image registry, when enabled | `docker.io`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
 `controller.haproxy.image.tag` | haproxy container image tag | `2.4.20-alpine`
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
@@ -157,6 +159,8 @@ Parameter | Description | Default
 `controller.kind` | Type of deployment, DaemonSet or Deployment | `Deployment`
 `controller.tcp` | TCP [service ConfigMap](https://haproxy-ingress.github.io/docs/configuration/command-line/#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`
 `controller.enableStaticPorts` | Set to `false` to only rely on ports from `controller.tcp` | `true`
+`controller.containerPorts.http` | HTTP container port in the controller | `80`
+`controller.containerPorts.https` |  HTTPS container port in the controller | `443`
 `controller.daemonset.useHostPort` | Set to true to use host ports 80 and 443 | `false`
 `controller.daemonset.hostIP` | Change the IP the host ports will bind to | `nil`
 `controller.daemonset.hostPorts.http` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for http | `"80"`
@@ -208,7 +212,8 @@ Parameter | Description | Default
 `controller.metrics.embedded` | defines if embedded haproxy's exporter should be used | `true`
 `controller.metrics.port` | port number the exporter is listening to | `9101`
 `controller.metrics.controllerPort` | port number the controller is exporting metrics on | `10254`
-`controller.metrics.image.repository` | prometheus-exporter image repository when embedded is `false` | `quay.io/prometheus/haproxy-exporter`
+`controller.metrics.image.registry` | prometheus-exporter image registry when embedded is `false` | `quay.io`
+`controller.metrics.image.repository` | prometheus-exporter image repository when embedded is `false` | `prometheus/haproxy-exporter`
 `controller.metrics.image.tag` | prometheus-exporter image tag | `v0.11.0`
 `controller.metrics.image.pullPolicy` | prometheus-exporter image pullPolicy | `IfNotPresent`
 `controller.metrics.extraArgs` | Extra arguments to the prometheus-exporter |  `{}`
@@ -233,6 +238,7 @@ Parameter | Description | Default
 `controller.serviceMonitor.ctrlMetrics.metricRelabelings` | Metric relabel configs to apply to samples before ingestion for controller metric | `[]`
 `controller.serviceMonitor.ctrlMetrics.relabelings` | Relabel configs to apply to samples before ingestion for controller metric | `[]`
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
+`controller.logs.image.registry` | access-logs container image registry | `docker.io`
 `controller.logs.image.repository` | access-logs container image repository | `whereisaaron/kube-syslog-sidecar`
 `controller.logs.image.tag` | access-logs image tag | `latest`
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
@@ -243,9 +249,11 @@ Parameter | Description | Default
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
 `defaultBackend.enabled` | whether to use the default backend component | `false`
 `defaultBackend.name` | name of the default backend component | `default-backend`
-`defaultBackend.image.repository` | default backend container image repository | `k8s.gcr.io/defaultbackend-amd64`
+`defaultBackend.image.registry` | default backend container image registry | `k8s.gcr.io`
+`defaultBackend.image.repository` | default backend container image repository | `defaultbackend-amd64`
 `defaultBackend.image.tag` | default backend container image repository tag | `1.5`
 `defaultBackend.image.pullPolicy` | default backend container image pullPolicy | `IfNotPresent`
+`defaultBackend.imagePullSecrets` | default backend pull secrets | `[]`
 `defaultBackend.tolerations` | to control scheduling to servers with taints | `[]`
 `defaultBackend.affinity` | to control scheduling | `{}`
 `defaultBackend.nodeSelector` | to control scheduling | `{}`
@@ -266,3 +274,4 @@ Parameter | Description | Default
 `defaultBackend.service.servicePort` | the port number exposed by the metrics service | `1936`
 `defaultBackend.service.type` | type of controller service to create | `ClusterIP`
 `defaultBackend.securityContext` | custom POD security context for the default backend container | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`
+`defaultBackend.priorityClassName` | Priority Class to be used | ``

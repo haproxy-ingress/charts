@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.defaultBackend.name }}
-          image: "{{ .Values.defaultBackend.image.repository }}:{{ .Values.defaultBackend.image.tag }}"
+          image: "{{ .Values.defaultBackend.image.registry }}/{{ .Values.defaultBackend.image.repository }}:{{ .Values.defaultBackend.image.tag }}"
           imagePullPolicy: "{{ .Values.defaultBackend.image.pullPolicy }}"
           livenessProbe:
             failureThreshold: 3
@@ -82,5 +82,12 @@ spec:
         runAsUser: 65000
         runAsGroup: 65000
         fsGroup: 65000
+    {{- end }}
+    {{- if .Values.defaultBackend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.defaultBackend.imagePullSecrets | nindent 8 }}
+    {{- end }}
+    {{- if .Values.defaultBackend.priorityClassName }}
+      priorityClassName: {{ .Values.defaultBackend.priorityClassName | quote }}
     {{- end }}
 {{- end }}
