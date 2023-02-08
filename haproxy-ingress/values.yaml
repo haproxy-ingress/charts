@@ -482,7 +482,6 @@ controller:
     # https://github.com/whereisaaron/kube-syslog-sidecar
     # (listens on UDP port 514 and outputs to stdout)
     image:
-      registry: docker.io
       repository: whereisaaron/kube-syslog-sidecar
       tag: latest
       pullPolicy: IfNotPresent
