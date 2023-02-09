@@ -156,6 +156,8 @@ Parameter | Description | Default
 `controller.kind` | Type of deployment, DaemonSet or Deployment | `Deployment`
 `controller.tcp` | TCP [service ConfigMap](https://haproxy-ingress.github.io/docs/configuration/command-line/#tcp-services-configmap): `<port>: <namespace>/<servicename>:<portnumber>[:[<in-proxy>][:<out-proxy>]]` | `{}`
 `controller.enableStaticPorts` | Set to `false` to only rely on ports from `controller.tcp` | `true`
+`controller.containerPorts.http` | HTTP container port in the controller | `80`
+`controller.containerPorts.https` |  HTTPS container port in the controller | `443`
 `controller.daemonset.useHostPort` | Set to true to use host ports 80 and 443 | `false`
 `controller.daemonset.hostIP` | Change the IP the host ports will bind to | `nil`
 `controller.daemonset.hostPorts.http` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for http | `"80"`
@@ -245,6 +247,7 @@ Parameter | Description | Default
 `defaultBackend.image.repository` | default backend container image repository | `k8s.gcr.io/defaultbackend-amd64`
 `defaultBackend.image.tag` | default backend container image repository tag | `1.5`
 `defaultBackend.image.pullPolicy` | default backend container image pullPolicy | `IfNotPresent`
+`defaultBackend.imagePullSecrets` | default backend pull secrets | `[]`
 `defaultBackend.tolerations` | to control scheduling to servers with taints | `[]`
 `defaultBackend.affinity` | to control scheduling | `{}`
 `defaultBackend.nodeSelector` | to control scheduling | `{}`
@@ -265,3 +268,4 @@ Parameter | Description | Default
 `defaultBackend.service.servicePort` | the port number exposed by the metrics service | `1936`
 `defaultBackend.service.type` | type of controller service to create | `ClusterIP`
 `defaultBackend.securityContext` | custom POD security context for the default backend container | `{runAsNonRoot: true, runAsUser: 65000, runAsGroup: 65000, fsGroup: 65000}`
+`defaultBackend.priorityClassName` | Priority Class to be used | ``

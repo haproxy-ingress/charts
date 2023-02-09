@@ -83,4 +83,11 @@ spec:
         runAsGroup: 65000
         fsGroup: 65000
     {{- end }}
+    {{- if .Values.defaultBackend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.defaultBackend.imagePullSecrets | nindent 8 }}
+    {{- end }}
+    {{- if .Values.defaultBackend.priorityClassName }}
+      priorityClassName: {{ .Values.defaultBackend.priorityClassName | quote }}
+    {{- end }}
 {{- end }}
