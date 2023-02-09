@@ -223,6 +223,10 @@ spec:
         httpGet:
           path: /
           port: metrics
+      readinessProbe:
+        httpGet:
+          path: /
+          port: metrics
       resources:
         {{- toYaml .Values.controller.metrics.resources | nindent 8 }}
 {{- if .Values.controller.metrics.securityContext }}
@@ -295,7 +299,7 @@ spec:
 {{- define "haproxy-ingress.controller.ports" }}
 {{- if .Values.controller.enableStaticPorts }}
 - name: http
-  containerPort: 80
+  containerPort: {{ .Values.controller.containerPorts.http }}
   {{- if eq .Values.controller.kind "DaemonSet" }}
     {{- if .Values.controller.daemonset.hostIP }}
   hostIP: {{ .Values.controller.daemonset.hostIP }}
@@ -305,7 +309,7 @@ spec:
     {{- end }}
   {{- end }}
 - name: https
-  containerPort: 443
+  containerPort: {{ .Values.controller.containerPorts.https }}
   {{- if eq .Values.controller.kind "DaemonSet" }}
     {{- if .Values.controller.daemonset.hostIP }}
   hostIP: {{ .Values.controller.daemonset.hostIP }}

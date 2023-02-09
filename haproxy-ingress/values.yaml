@@ -189,6 +189,11 @@ controller:
   tcp: {}
   #  8080: "default/example-tcp-svc:9000"
 
+  # default values for http and https containerPorts
+  containerPorts:
+    http: 80
+    https: 443
+
   # optionally disable static ports, including the default 80 and 443
   enableStaticPorts: true
 
@@ -519,6 +524,9 @@ defaultBackend:
     tag: "1.5"
     pullPolicy: IfNotPresent
 
+  imagePullSecrets: []
+  # - name: secret-name
+
   ## Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   ##
@@ -581,3 +589,7 @@ defaultBackend:
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   ##
   securityContext: {}
+
+  ## Priority Class for the default backend container
+  ##
+  priorityClassName: ""
