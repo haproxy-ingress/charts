@@ -22,7 +22,7 @@ spec:
   initContainers:
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy-ingress-init
-      image:  "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
       args:
         - --init
@@ -43,7 +43,7 @@ spec:
 {{- end }}
   containers:
     - name: haproxy-ingress
-      image:  "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
       args:
         - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}
@@ -172,7 +172,7 @@ spec:
 {{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
-      image:  "{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
+      image: "{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.logs.image.pullPolicy }}"
       ports:
         - name: udp
@@ -203,7 +203,7 @@ spec:
 {{- end }}
 {{- if and .Values.controller.stats.enabled .Values.controller.metrics.enabled (not .Values.controller.metrics.embedded) }}
     - name: prometheus-exporter
-      image:  "{{ .Values.controller.metrics.image.repository }}:{{ .Values.controller.metrics.image.tag }}"
+      image: "{{ .Values.controller.metrics.image.repository }}:{{ .Values.controller.metrics.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.metrics.image.pullPolicy }}"
       args:
         - '--haproxy.scrape-uri=http://localhost:{{ .Values.controller.stats.port }}/haproxy?stats;csv'
@@ -220,6 +220,10 @@ spec:
           containerPort: {{ .Values.controller.metrics.port }}
           protocol: TCP
       livenessProbe:
+        httpGet:
+          path: /
+          port: metrics
+      readinessProbe:
         httpGet:
           path: /
           port: metrics
@@ -295,7 +299,7 @@ spec:
 {{- define "haproxy-ingress.controller.ports" }}
 {{- if .Values.controller.enableStaticPorts }}
 - name: http
-  containerPort: 80
+  containerPort: {{ .Values.controller.containerPorts.http }}
   {{- if eq .Values.controller.kind "DaemonSet" }}
     {{- if .Values.controller.daemonset.hostIP }}
   hostIP: {{ .Values.controller.daemonset.hostIP }}
@@ -305,7 +309,7 @@ spec:
     {{- end }}
   {{- end }}
 - name: https
-  containerPort: 443
+  containerPort: {{ .Values.controller.containerPorts.https }}
   {{- if eq .Values.controller.kind "DaemonSet" }}
     {{- if .Values.controller.daemonset.hostIP }}
   hostIP: {{ .Values.controller.daemonset.hostIP }}
