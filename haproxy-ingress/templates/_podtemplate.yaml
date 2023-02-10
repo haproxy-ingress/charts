@@ -22,7 +22,7 @@ spec:
   initContainers:
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy-ingress-init
-      image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
       args:
         - --init
@@ -43,7 +43,7 @@ spec:
 {{- end }}
   containers:
     - name: haproxy-ingress
-      image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
       args:
         - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}
@@ -131,7 +131,7 @@ spec:
 {{- end }}
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy
-      image: "{{ .Values.controller.haproxy.image.repository }}:{{ .Values.controller.haproxy.image.tag }}"
+      image: "{{ .Values.controller.haproxy.image.registry }}/{{ .Values.controller.haproxy.image.repository }}:{{ .Values.controller.haproxy.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.haproxy.image.pullPolicy }}"
       args:
         - -W
@@ -172,7 +172,7 @@ spec:
 {{- end }}
 {{- if .Values.controller.logs.enabled }}
     - name: access-logs
-      image: "{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
+      image: "{{ .Values.controller.logs.image.registry }}/{{ .Values.controller.logs.image.repository }}:{{ .Values.controller.logs.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.logs.image.pullPolicy }}"
       ports:
         - name: udp
@@ -203,7 +203,7 @@ spec:
 {{- end }}
 {{- if and .Values.controller.stats.enabled .Values.controller.metrics.enabled (not .Values.controller.metrics.embedded) }}
     - name: prometheus-exporter
-      image: "{{ .Values.controller.metrics.image.repository }}:{{ .Values.controller.metrics.image.tag }}"
+      image: "{{ .Values.controller.metrics.image.registry }}/{{ .Values.controller.metrics.image.repository }}:{{ .Values.controller.metrics.image.tag }}"
       imagePullPolicy: "{{ .Values.controller.metrics.image.pullPolicy }}"
       args:
         - '--haproxy.scrape-uri=http://localhost:{{ .Values.controller.stats.port }}/haproxy?stats;csv'
