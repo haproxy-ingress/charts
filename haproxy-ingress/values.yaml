@@ -21,7 +21,7 @@ controller:
   image:
     registry: quay.io
     repository: jcmoraisjr/haproxy-ingress
-    tag: v0.14.0
+    tag: v0.15.0-alpha.1
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
@@ -331,7 +331,7 @@ controller:
     image:
       registry: docker.io
       repository: haproxy
-      tag: "2.4.20-alpine"
+      tag: "2.6.9-alpine"
       pullPolicy: IfNotPresent
 
     ## Additional command line arguments to pass to haproxy
