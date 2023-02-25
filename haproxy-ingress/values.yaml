@@ -482,12 +482,13 @@ controller:
     enabled: false
 
     # syslog for haproxy
-    # https://github.com/whereisaaron/kube-syslog-sidecar
+    # https://github.com/crisu1710/kube-syslog-sidecar
     # (listens on UDP port 514 and outputs to stdout)
+    # registry needs to be in quotes
     image:
-      registry: docker.io
-      repository: whereisaaron/kube-syslog-sidecar
-      tag: latest
+      registry: "ghcr.io"
+      repository: crisu1710/kube-syslog-sidecar
+      tag: main
       pullPolicy: IfNotPresent
 
     ## Additional volume mounts
