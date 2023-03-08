@@ -240,7 +240,7 @@ Parameter | Description | Default
 `controller.logs.enabled` | enable an access-logs sidecar container that collects access logs from haproxy and outputs to stdout | `false`
 `controller.logs.image.registry` | access-logs container image registry | `ghcr.io`
 `controller.logs.image.repository` | access-logs container image repository | `crisu1710/kube-syslog-sidecar`
-`controller.logs.image.tag` | access-logs image tag | `0.1.0`
+`controller.logs.image.tag` | access-logs image tag | `0.2.0`
 `controller.logs.image.pullPolicy` | access-logs image pullPolicy | `IfNotPresent`
 `controller.logs.extraVolumeMounts` | extra volume mounts for the access-logs container | `[]`
 `controller.logs.port` | port used by sidecar logs container | `514`
