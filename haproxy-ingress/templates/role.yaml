@@ -24,7 +24,7 @@ rules:
       - get
       - create
       - update
-{{- if .Values.rbac.security.enable }}
+{{- if and .Values.rbac.security.enable (semverCompare "< 1.25-0" .Capabilities.KubeVersion.Version) }}
   - apiGroups:
       - policy
     resources:

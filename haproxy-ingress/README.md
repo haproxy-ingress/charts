@@ -95,7 +95,7 @@ Parameter | Description | Default
 --- | --- | ---
 `rbac.create` | If true, create & use RBAC resources | `true`
 `rbac.secret.write` | If true, and rbac.create is true, add write access to secrets, used by acme | `false`
-`rbac.security.enable` | If true, and rbac.create is true, create & use PSP resources | `false`
+`rbac.security.enable` | If true, and rbac.create is true, create & use PSP resources on Kubernetes clusters up to v1.25 | `false`
 `serviceAccount.create` | If true, create serviceAccount | `true`
 `serviceAccount.name` | ServiceAccount to be used | ``
 `controller.name` | name of the controller component | `controller`
