@@ -4,6 +4,8 @@ rbac:
   secret:
     write: false
   security:
+    # Configures PodSecurityPolicy. This resource was removed on Kubernetes v1.25,
+    # so it is ignored on clusters version v1.25 or newer.
     enable: false
 
 # Create ServiceAccount

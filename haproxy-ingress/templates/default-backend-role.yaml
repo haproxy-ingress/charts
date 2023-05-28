@@ -1,4 +1,4 @@
-{{- if and .Values.defaultBackend.enabled .Values.rbac.security.enable }}
+{{- if and .Values.defaultBackend.enabled .Values.rbac.security.enable (semverCompare "< 1.25-0" .Capabilities.KubeVersion.Version) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
