@@ -146,7 +146,7 @@ Parameter | Description | Default
 `controller.podAnnotations` | Annotations for the haproxy-ingress-controller pod | `{}`
 `controller.podLabels` | Labels for the haproxy-ingress-controller pod | `{}`
 `controller.podAffinity` | Add affinity to the controller pods to control scheduling | `{}`
-`controller.podSecurityContext` | Security context settings for the haproxy-ingress-controller pod | `{"sysctls":"net.ipv4.ip_unprivileged_port_start=1"}`
+`controller.podSecurityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
 `controller.priorityClassName` | Priority Class to be used | ``
 `controller.securityContext` | Security context settings for the haproxy-ingress-controller pod or container, see `controller.legacySecurityContext` | `{}`
 `controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
