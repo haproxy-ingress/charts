@@ -165,6 +165,10 @@ spec:
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
 {{- end }}
+{{- if .Values.controller.haproxy.lifecycle }}
+      lifecycle:
+        {{- toYaml .Values.controller.haproxy.lifecycle | nindent 8 }}
+{{- end }}
 {{- if .Values.controller.haproxy.securityContext }}
       securityContext:
         {{- toYaml .Values.controller.haproxy.securityContext | nindent 8 }}
