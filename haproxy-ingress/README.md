@@ -123,6 +123,7 @@ Parameter | Description | Default
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
+`controller.haproxy.lifecycle` | Lifecycle hooks for haproxy container | `{}`
 `controller.haproxy.securityContext` | Security context settings for the haproxy container | `{}`
 `controller.healthzPort` | The haproxy health check (monitoring) port | `10253`
 `controller.legacySecurityContext` | Defines if `controller.securityContext` should be applied to the controller's pod (legacy: true) or container (legacy: false)  | `true`

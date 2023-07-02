@@ -341,6 +341,12 @@ controller:
     #    cpu: 500m
     #    memory: 768Mi
 
+    # Configure container lifecycle. When scaling replicas down this can be
+    # used to prevent controller container from terminating quickly and drop in-flight requests.
+    # For example, when the controller runs behind Network Load Balancer this can be used
+    # to configure preStop hook to sleep along with deregistration_delay.
+    lifecycle: {}
+
     ## Container Security Context for the haproxy container
     ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     ##
