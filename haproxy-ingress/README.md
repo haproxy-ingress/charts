@@ -9,7 +9,7 @@ This chart bootstraps an HAProxy Ingress deployment on a [Kubernetes](http://kub
 ## Prerequisites
 
 * Helm 3 installed, see installation instructions [here](https://helm.sh/docs/intro/install/)
-* Kubernetes 1.23+ with Beta APIs enabled
+* Kubernetes 1.19+ with Beta APIs enabled
 
 ## Installing the Chart
 
