@@ -229,7 +229,8 @@ controller:
   # Deployment
   replicaCount: 1
 
-  # PodDisruptionBudget
+  # A PodDisruptionBudget is created only if minAvailable is
+  # greater than 0 (zero) and lesser than the replicaCount
   minAvailable: 1
 
   resources: {}
@@ -563,7 +564,8 @@ defaultBackend:
   # Deployment
   replicaCount: 1
 
-  # PodDisruptionBudget
+  # A PodDisruptionBudget is created only if minAvailable is
+  # greater than 0 (zero) and lesser than the replicaCount
   minAvailable: 1
 
   resources:
