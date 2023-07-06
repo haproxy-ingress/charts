@@ -1,3 +1,4 @@
+{{- if and .Values.controller.minAvailable (gt .Values.controller.replicaCount .Values.controller.minAvailable) }}
 {{- if semverCompare ">= 1.21-0" .Capabilities.KubeVersion.Version }}
 apiVersion: policy/v1
 {{- else }}
@@ -14,3 +15,4 @@ spec:
     matchLabels:
       {{- include "haproxy-ingress.selectorLabels" . | nindent 6 }}
   minAvailable: {{ .Values.controller.minAvailable }}
+{{- end }}
