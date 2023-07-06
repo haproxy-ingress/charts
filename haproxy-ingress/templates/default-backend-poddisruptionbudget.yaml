@@ -1,4 +1,4 @@
-{{- if .Values.defaultBackend.enabled -}}
+{{- if and .Values.defaultBackend.enabled .Values.defaultBackend.minAvailable (gt .Values.defaultBackend.replicaCount .Values.defaultBackend.minAvailable) }}
 {{- if semverCompare ">= 1.21-0" .Capabilities.KubeVersion.Version }}
 apiVersion: policy/v1
 {{- else }}
