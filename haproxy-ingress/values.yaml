@@ -22,7 +22,7 @@ fullnameOverride: ""
 controller:
   image:
     repository: quay.io/jcmoraisjr/haproxy-ingress
-    tag: v0.14.3
+    tag: v0.14.4
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
@@ -332,7 +332,7 @@ controller:
 
     image:
       repository: haproxy
-      tag: "2.4.22-alpine"
+      tag: "2.4.23-alpine"
       pullPolicy: IfNotPresent
 
     ## Additional command line arguments to pass to haproxy
