@@ -98,6 +98,8 @@ Parameter | Description | Default
 `rbac.security.enable` | If true, and rbac.create is true, create & use PSP resources on Kubernetes clusters up to v1.25 | `false`
 `serviceAccount.create` | If true, create serviceAccount | `true`
 `serviceAccount.name` | ServiceAccount to be used | ``
+`serviceAccount.automountServiceAccountToken` | Automount API credentials for the ServiceAccount | `true` |
+`controller.automountServiceAccountToken` | Automount API credentials to the controller's pod | `true` |
 `controller.name` | name of the controller component | `controller`
 `controller.image.repository` | controller container image repository | `quay.io/jcmoraisjr/haproxy-ingress`
 `controller.image.tag` | controller container image tag | `v0.14.4`

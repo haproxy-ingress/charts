@@ -18,6 +18,7 @@ spec:
     {{- toYaml .Values.controller.podAffinity | nindent 4 }}
 {{- end }}
   serviceAccountName: {{ include "haproxy-ingress.serviceAccountName" . }}
+  automountServiceAccountToken: {{ .Values.controller.automountServiceAccountToken }}
 {{- if or .Values.controller.haproxy.enabled .Values.controller.initContainers }}
   initContainers:
 {{- if .Values.controller.haproxy.enabled }}
