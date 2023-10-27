@@ -18,6 +18,9 @@ spec:
   externalIPs:
     {{- toYaml .Values.defaultBackend.service.externalIPs | nindent 4 }}
 {{- end }}
+{{- if .Values.defaultBackend.service.loadBalancerClass }}
+  loadBalancerClass: "{{ .Values.defaultBackend.service.loadBalancerClass }}"
+{{- end }}
 {{- if .Values.defaultBackend.service.loadBalancerIP }}
   loadBalancerIP: "{{ .Values.defaultBackend.service.loadBalancerIP }}"
 {{- end }}

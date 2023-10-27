@@ -270,7 +270,7 @@ controller:
   ##
   nodeSelector: {}
 
-  ## The 'publishService' setting allows customization of the source of the IP address or FQDN to report 
+  ## The 'publishService' setting allows customization of the source of the IP address or FQDN to report
   ## in the ingress status field. If disabled (default), the field will not be set by the controller.
   ## If enabled, it reads the information provided by the service, unless pathOverride is specified.
   ## If a value for 'publish-service' is specified in controller.extraArgs, it overrides this setting.
@@ -302,6 +302,7 @@ controller:
     # ipFamilies: [IPv4]
     # ipFamilyPolicy: PreferDualStack
 
+    loadBalancerClass: ""
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
 
@@ -441,6 +442,7 @@ controller:
       ##
       externalIPs: []
 
+      loadBalancerClass: ""
       loadBalancerIP: ""
       loadBalancerSourceRanges: []
       servicePort: 9101
@@ -591,8 +593,10 @@ defaultBackend:
     ##
     externalIPs: []
 
+    loadBalancerClass: ""
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
+
     servicePort: 8080
     type: ClusterIP
 
