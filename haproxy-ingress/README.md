@@ -196,6 +196,7 @@ Parameter | Description | Default
 `controller.service.extraPorts` | list of extra TCP ports that should be added to the controller service | `[]`
 `controller.service.ipFamilies` | list of IP families assigned to the service (for dual-stack) | `nil`
 `controller.service.ipFamilyPolicy` | represents the dual-stack-ness of the service | `nil`
+`controller.service.loadBalancerClass` | The loadBalancerClass of the controller service | `""`
 `controller.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.service.loadBalancerSourceRanges` |  | `[]`
 `controller.service.httpPorts` | The http ports to open, that map to the Ingress' port 80. Each entry specifies a `port`, `targetPort` and an optional `nodePort`. | `[ port: 80, targetPort: http ]`
@@ -225,6 +226,7 @@ Parameter | Description | Default
 `controller.metrics.service.annotations` | annotations for metrics service | `{}`
 `controller.metrics.service.clusterIP` | internal metrics cluster service IP | `nil`
 `controller.metrics.service.externalIPs` | list of IP addresses at which the metrics service is available | `[]`
+`controller.metrics.service.loadBalancerClass` | The loadBalancerClass of the service | `""`
 `controller.metrics.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `controller.metrics.service.loadBalancerSourceRanges` |  | `[]`
 `controller.metrics.service.servicePort` | the port number exposed by the metrics service | `9101`
@@ -271,7 +273,8 @@ Parameter | Description | Default
 `defaultBackend.service.name` | name of default backend service to create | `ingress-default-backend`
 `defaultBackend.service.annotations` | annotations for metrics service | `{}`
 `defaultBackend.service.clusterIP` | internal metrics cluster service IP | `nil`
-`defaultBackend.service.externalIPs` | list of IP addresses at which the metrics service is available | `[]`
+`defaultBackend.service.externalIPs` | list of externalIPs for the defaultBackend service | `[]`
+`defaultBackend.service.loadBalancerClass` | The loadBalancerClass of the service | `""`
 `defaultBackend.service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `defaultBackend.service.loadBalancerSourceRanges` |  | `[]`
 `defaultBackend.service.servicePort` | the port number exposed by the metrics service | `1936`

@@ -36,6 +36,9 @@ spec:
 {{- if .Values.controller.service.ipFamilyPolicy }}
   ipFamilyPolicy: {{ .Values.controller.service.ipFamilyPolicy | quote }}
 {{- end }}
+{{- if .Values.controller.service.loadBalancerClass }}
+  loadBalancerClass: "{{ .Values.controller.service.loadBalancerClass }}"
+{{- end }}
 {{- if .Values.controller.service.loadBalancerIP }}
   loadBalancerIP: "{{ .Values.controller.service.loadBalancerIP }}"
 {{- end }}
