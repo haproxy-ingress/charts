@@ -86,5 +86,6 @@ rules:
     resources:
       - ingresses/status
     verbs:
+      - patch
       - update
 {{- end }}
