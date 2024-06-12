@@ -59,6 +59,7 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{/* need to update NOTES.txt whenever update these labels */}}
 {{- define "haproxy-ingress.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "haproxy-ingress.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
