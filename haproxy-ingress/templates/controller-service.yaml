@@ -88,8 +88,8 @@ spec:
   selector:
     {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.controller.service.type }}"
----
 {{- range $i, $svc := .Values.controller.extraServices }}
+---
 kind: Service
 metadata:
 {{- if $svc.annotations }}
