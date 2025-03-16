@@ -138,6 +138,11 @@ controller:
   securityContext: {}
   #  readOnlyRootFilesystem: true
 
+  ## Security context for the init container, when init container is configured
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  ##
+  securityContextInitContainer: {}
+
   # Defines if controller.securityContext should be applied in the
   # controller's pod (if legacy: true) or the container (if legacy: false)
   legacySecurityContext: true
