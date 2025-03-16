@@ -260,6 +260,9 @@ controller:
     #  targetCPUUtilizationPercentage: 50
     #  targetMemoryUtilizationPercentage: 50
     customMetrics: []
+    # Enable using external HPA by removing number of replicas
+    # from the Controller deployment, but not deplying the HPA object   
+    useExternalHPA: false
 
   ## Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
