@@ -88,4 +88,17 @@ rules:
     verbs:
       - patch
       - update
+  - apiGroups:
+      - gateway.networking.k8s.io
+      - networking.x-k8s.io
+    resources:
+      - gateways/status
+      - gatewayclasses/status
+      - httproutes/status
+      - tlsroutes/status
+      - tcproutes/status
+      - udproutes/status
+      - backendpolicies/status
+    verbs:
+      - update
 {{- end }}
