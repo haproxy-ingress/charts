@@ -1,4 +1,4 @@
-{{- if and (eq .Values.controller.kind "Deployment") .Values.controller.autoscaling.enabled -}}
+{{- if and (eq .Values.controller.kind "Deployment") .Values.controller.autoscaling.enabled (not .Values.controller.autoscaling.useExternalHPA) -}}
 {{- if semverCompare ">= 1.23-0" .Capabilities.KubeVersion.Version }}
 apiVersion: autoscaling/v2
 {{- else }}
