@@ -99,6 +99,7 @@ Parameter | Description | Default
 `serviceAccount.create` | If true, create serviceAccount | `true`
 `serviceAccount.name` | ServiceAccount to be used | ``
 `serviceAccount.automountServiceAccountToken` | Automount API credentials for the ServiceAccount | `true` |
+`serviceAccount.annotations` | A list of annotations to add to the ServiceAccount | ``
 `controller.automountServiceAccountToken` | Automount API credentials to the controller's pod | `true` |
 `controller.name` | name of the controller component | `controller`
 `controller.image.registry` | controller container image registry | `quay.io`

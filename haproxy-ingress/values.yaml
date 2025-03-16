@@ -10,6 +10,9 @@ rbac:
 
 # Create ServiceAccount
 serviceAccount:
+  # Annotations to be added to the ServiceAccount
+  annotations: {}
+  # - eks.amazonaws.com/role-arn: "arn:aws:iam::111111111111:role/some-role-name"
   # Specifies whether a ServiceAccount should be created
   create: true
   # The name of the ServiceAccount to use.
