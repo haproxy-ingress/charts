@@ -151,6 +151,7 @@ Parameter | Description | Default
 `controller.podSecurityContext` | Security context settings for the haproxy-ingress-controller pod | `{}`
 `controller.priorityClassName` | Priority Class to be used | ``
 `controller.securityContext` | Security context settings for the haproxy-ingress-controller pod or container, see `controller.legacySecurityContext` | `{}`
+`controller.securityContextInitContainer` | Security context settings for the init container | `{}`
 `controller.config` | additional haproxy-ingress [ConfigMap entries](https://haproxy-ingress.github.io/docs/configuration/keys/) | `{}`
 `controller.customFiles` | Custom files to be mounted in the controller pod(s) | `{}`
 `controller.hostNetwork` | Optionally set to true when using CNI based kubernetes installations | `false`
