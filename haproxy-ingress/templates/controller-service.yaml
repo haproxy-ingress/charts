@@ -1,57 +1,72 @@
+{{- include "haproxy-ingress.controller.services" (dict "root" . "svc" .Values.controller.service "default" .Values.controller.service "name" (include "haproxy-ingress.fullname" .)) }}
+
+{{- range $i, $svc := .Values.controller.extraServices }}
+---
+{{- $name := printf "%s-extra-%d" (include "haproxy-ingress.fullname" $) $i }}
+{{- include "haproxy-ingress.controller.services" (dict "root" $ "svc" $svc "default" $.Values.controller.service "name" $name) }}
+{{- end }}
+
+{{- define "haproxy-ingress.controller.services" }}
+{{- /* Note that any new field with non zero default value under controller.service */}}
+{{- /* should be implemented with `default` in the template below. */}}
+{{- $externalTrafficPolicy := default .default.externalTrafficPolicy .svc.externalTrafficPolicy }}
+{{- $svctype := default .default.type .svc.type }}
+{{- $httpPorts := default .default.httpPorts .svc.httpPorts }}
+{{- $httpsPorts := default .default.httpsPorts .svc.httpsPorts }}
 apiVersion: v1
 kind: Service
 metadata:
-{{- if .Values.controller.service.annotations }}
+{{- if .svc.annotations }}
   annotations:
-    {{- toYaml .Values.controller.service.annotations | nindent 4 }}
+    {{- toYaml .svc.annotations | nindent 4 }}
 {{- end }}
   labels:
-    {{- include "haproxy-ingress.labels" . | nindent 4 }}
-{{- if .Values.controller.service.labels }}
-    {{- toYaml .Values.controller.service.labels | nindent 4 }}
+    {{- include "haproxy-ingress.labels" .root | nindent 4 }}
+{{- if .svc.labels }}
+    {{- toYaml .svc.labels | nindent 4 }}
 {{- end }}
-  name: {{ include "haproxy-ingress.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ .name }}
+  namespace: {{ .root.Release.Namespace }}
 spec:
-{{- if .Values.controller.service.clusterIP }}
-  clusterIP: "{{ .Values.controller.service.clusterIP }}"
+{{- if .svc.clusterIP }}
+  clusterIP: "{{ .svc.clusterIP }}"
 {{- end }}
-{{- if .Values.controller.service.clusterIPs }}
+{{- if .svc.clusterIPs }}
   clusterIPs:
-    {{- toYaml .Values.controller.service.clusterIPs | nindent 4 }}
+    {{- toYaml .svc.clusterIPs | nindent 4 }}
 {{- end }}
-{{- if .Values.controller.service.externalTrafficPolicy }}
-{{- if or (eq .Values.controller.service.type "NodePort") (eq .Values.controller.service.type "LoadBalancer") }}
-  externalTrafficPolicy: "{{ .Values.controller.service.externalTrafficPolicy }}"
+{{- if $externalTrafficPolicy }}
+{{- if or (eq $svctype "NodePort") (eq $svctype "LoadBalancer") }}
+  externalTrafficPolicy: "{{ $externalTrafficPolicy }}"
 {{- end }}
 {{- end }}
-{{- if .Values.controller.service.externalIPs }}
+{{- if .svc.externalIPs }}
   externalIPs:
-    {{- toYaml .Values.controller.service.externalIPs | nindent 4 }}
+    {{- toYaml .svc.externalIPs | nindent 4 }}
 {{- end }}
-{{- if .Values.controller.service.ipFamilies }}
+{{- if .svc.ipFamilies }}
   ipFamilies:
-    {{- toYaml .Values.controller.service.ipFamilies | nindent 4 }}
+    {{- toYaml .svc.ipFamilies | nindent 4 }}
 {{- end }}
-{{- if .Values.controller.service.ipFamilyPolicy }}
-  ipFamilyPolicy: {{ .Values.controller.service.ipFamilyPolicy | quote }}
+{{- if .svc.ipFamilyPolicy }}
+  ipFamilyPolicy: {{ .svc.ipFamilyPolicy | quote }}
 {{- end }}
-{{- if .Values.controller.service.loadBalancerClass }}
-  loadBalancerClass: "{{ .Values.controller.service.loadBalancerClass }}"
+{{- if .svc.loadBalancerClass }}
+  loadBalancerClass: "{{ .svc.loadBalancerClass }}"
 {{- end }}
-{{- if .Values.controller.service.loadBalancerIP }}
-  loadBalancerIP: "{{ .Values.controller.service.loadBalancerIP }}"
+{{- if .svc.loadBalancerIP }}
+  loadBalancerIP: "{{ .svc.loadBalancerIP }}"
 {{- end }}
-{{- if .Values.controller.service.loadBalancerSourceRanges }}
+{{- if .svc.loadBalancerSourceRanges }}
   loadBalancerSourceRanges:
-    {{- toYaml .Values.controller.service.loadBalancerSourceRanges | nindent 4 }}
+    {{- toYaml .svc.loadBalancerSourceRanges | nindent 4 }}
 {{- end }}
-{{- if (.Values.controller.service.healthCheckNodePort) }}
-  healthCheckNodePort: {{ .Values.controller.service.healthCheckNodePort }}
+{{- if (.svc.healthCheckNodePort) }}
+  healthCheckNodePort: {{ .svc.healthCheckNodePort }}
 {{- end }}
   ports:
-{{- if .Values.controller.enableStaticPorts }}
-  {{- range .Values.controller.service.httpPorts }}
+{{- if .root.Values.controller.enableStaticPorts }}
+  {{- range $httpPorts }}
     - name: "http-{{ .port }}"
       port: {{ .port }}
       protocol: TCP
@@ -60,7 +75,7 @@ spec:
       nodePort: {{ .nodePort }}
     {{- end }}
   {{- end }}
-  {{- range .Values.controller.service.httpsPorts }}
+  {{- range $httpsPorts }}
     - name: "https-{{ .port }}"
       port: {{ .port }}
       protocol: TCP
@@ -70,13 +85,13 @@ spec:
     {{- end }}
   {{- end }}
 {{- end }}
-{{- range $key, $value := .Values.controller.tcp }}
+{{- range $key, $value := .root.Values.controller.tcp }}
     - name: "{{ tpl $key $ }}-tcp"
       port: {{ tpl $key $ }}
       protocol: TCP
       targetPort: "{{ tpl $key $ }}-tcp"
 {{- end }}
-{{- range $row := .Values.controller.service.extraPorts }}
+{{- range $row := .svc.extraPorts }}
     - name: "extra-port-{{ $row.port }}"
       port: {{ $row.port }}
       protocol: TCP
@@ -86,97 +101,6 @@ spec:
     {{- end }}
 {{- end }}
   selector:
-    {{- include "haproxy-ingress.selectorLabels" . | nindent 4 }}
-  type: "{{ .Values.controller.service.type }}"
-{{- range $i, $svc := .Values.controller.extraServices }}
----
-kind: Service
-metadata:
-{{- if $svc.annotations }}
-  annotations:
-    {{- toYaml $svc.annotations | nindent 4 }}
-{{- end }}
-  labels:
-    {{- include "haproxy-ingress.labels" $ | nindent 4 }}
-{{- if $svc.labels }}
-    {{- toYaml $svc.labels | nindent 4 }}
-{{- end }}
-  name: {{ include "haproxy-ingress.fullname" $ }}-extra-{{ $i }}
-  namespace: {{ $.Release.Namespace }}
-spec:
-{{- if $svc.clusterIP }}
-  clusterIP: "{{ $svc.clusterIP }}"
-{{- end }}
-{{- if $svc.clusterIPs }}
-  clusterIPs:
-    {{- toYaml $svc.clusterIPs | nindent 4 }}
-{{- end }}
-{{- if or $svc.externalTrafficPolicy $.Values.controller.service.externalTrafficPolicy }}
-{{- if or (eq (default $.Values.controller.service.type $svc.type) "NodePort") (eq (default $.Values.controller.service.type $svc.type) "LoadBalancer") }}
-  externalTrafficPolicy: "{{ default $.Values.controller.service.externalTrafficPolicy $svc.externalTrafficPolicy }}"
-{{- end }}
-{{- end }}
-{{- if $svc.externalIPs }}
-  externalIPs:
-    {{- toYaml $svc.externalIPs | nindent 4 }}
-{{- end }}
-{{- if $svc.ipFamilies }}
-  ipFamilies:
-    {{- toYaml $svc.ipFamilies | nindent 4 }}
-{{- end }}
-{{- if $svc.ipFamilyPolicy }}
-  ipFamilyPolicy: {{ $svc.ipFamilyPolicy | quote }}
-{{- end }}
-{{- if $svc.loadBalancerClass }}
-  loadBalancerClass: "{{ $svc.loadBalancerClass }}"
-{{- end }}
-{{- if $svc.loadBalancerIP }}
-  loadBalancerIP: "{{ $svc.loadBalancerIP }}"
-{{- end }}
-{{- if $svc.loadBalancerSourceRanges }}
-  loadBalancerSourceRanges:
-    {{- toYaml $svc.loadBalancerSourceRanges | nindent 4 }}
-{{- end }}
-{{- if ($svc.healthCheckNodePort) }}
-  healthCheckNodePort: {{ $svc.healthCheckNodePort }}
-{{- end }}
-  ports:
-{{- if $.Values.controller.enableStaticPorts }}
-  {{- range default $.Values.controller.service.httpPorts $svc.httpPorts }}
-    - name: "http-{{ .port }}"
-      port: {{ .port }}
-      protocol: TCP
-      targetPort: {{ .targetPort | default "http" }}
-    {{- if (not (empty .nodePort)) }}
-      nodePort: {{ .nodePort }}
-    {{- end }}
-  {{- end }}
-  {{- range default $.Values.controller.service.httpsPorts $svc.httpsPorts }}
-    - name: "https-{{ .port }}"
-      port: {{ .port }}
-      protocol: TCP
-      targetPort: {{ .targetPort | default "https" }}
-    {{- if (not (empty .nodePort)) }}
-      nodePort: {{ .nodePort }}
-    {{- end }}
-  {{- end }}
-{{- end }}
-{{- range $key, $value := $.Values.controller.tcp }}
-    - name: "{{ tpl $key $ }}-tcp"
-      port: {{ tpl $key $ }}
-      protocol: TCP
-      targetPort: "{{ tpl $key $ }}-tcp"
-{{- end }}
-{{- range $row := $svc.extraPorts }}
-    - name: "extra-port-{{ $row.port }}"
-      port: {{ $row.port }}
-      protocol: TCP
-      targetPort: {{ $row.targetPort }}
-    {{- if (not (empty $row.nodePort)) }}
-      nodePort: {{ $row.nodePort }}
-    {{- end }}
-{{- end }}
-  selector:
-    {{- include "haproxy-ingress.selectorLabels" $ | nindent 4 }}
-  type: "{{ default $.Values.controller.service.type $svc.type }}"
+    {{- include "haproxy-ingress.selectorLabels" .root | nindent 4 }}
+  type: "{{ $svctype }}"
 {{- end }}
