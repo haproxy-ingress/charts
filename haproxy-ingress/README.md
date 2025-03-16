@@ -252,7 +252,7 @@ Parameter | Description | Default
 `controller.logs.resources` | access-logs container resource requests & limits |  `{}`
 `defaultBackend.enabled` | whether to use the default backend component | `false`
 `defaultBackend.name` | name of the default backend component | `default-backend`
-`defaultBackend.image.repository` | default backend container image repository | `k8s.gcr.io/defaultbackend-amd64`
+`defaultBackend.image.repository` | default backend container image repository | `registry.k8s.io/defaultbackend-amd64`
 `defaultBackend.image.tag` | default backend container image repository tag | `1.5`
 `defaultBackend.image.pullPolicy` | default backend container image pullPolicy | `IfNotPresent`
 `defaultBackend.imagePullSecrets` | default backend pull secrets | `[]`
