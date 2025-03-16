@@ -544,7 +544,7 @@ defaultBackend:
 
   name: default-backend
   image:
-    registry: k8s.gcr.io
+    registry: registry.k8s.io
     repository: defaultbackend-amd64
     tag: "1.5"
     pullPolicy: IfNotPresent
