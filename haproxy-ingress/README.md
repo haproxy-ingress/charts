@@ -203,6 +203,7 @@ Parameter | Description | Default
 `controller.service.httpPorts` | The http ports to open, that map to the Ingress' port 80. Each entry specifies a `port`, `targetPort` and an optional `nodePort`. | `[ port: 80, targetPort: http ]`
 `controller.service.httpsPorts` | The https ports to open, that map to the Ingress' port 443. Each entry specifies a `port`, `targetPort` and an optional `nodePort`. | `[ port: 443 , targetPort: https]`
 `controller.service.type` | type of controller service to create | `LoadBalancer`
+`controller.extraServices` | The list of extra controller services. Each service accepts `controller.service` keys. | `[]`
 `controller.stats.enabled` | whether to enable exporting stats |  `false`
 `controller.stats.port` | The port number used haproxy-ingress-controller for haproxy statistics | `1936`
 `controller.stats.hostPort` | The host port number used haproxy-ingress-controller for haproxy statistics | `~`

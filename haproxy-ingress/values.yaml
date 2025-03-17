@@ -342,6 +342,10 @@ controller:
 
     type: LoadBalancer
 
+  ## Add extra services
+  ## Refer to controller.service for available keys
+  extraServices: []
+
   ## If controller.haproxy.enabled = true, an external haproxy instance
   ## is configured and managed as a sidecar container
   haproxy:
