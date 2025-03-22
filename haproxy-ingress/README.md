@@ -103,7 +103,7 @@ Parameter | Description | Default
 `controller.name` | name of the controller component | `controller`
 `controller.image.registry` | controller container image registry | `quay.io`
 `controller.image.repository` | controller container image repository | `jcmoraisjr/haproxy-ingress`
-`controller.image.tag` | controller container image tag | `v0.15.0-alpha.3`
+`controller.image.tag` | controller container image tag | `v0.15.0-beta.1`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
@@ -123,7 +123,7 @@ Parameter | Description | Default
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.registry` | haproxy container image registry, when enabled | `docker.io`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
-`controller.haproxy.image.tag` | haproxy container image tag | `2.6.17-alpine`
+`controller.haproxy.image.tag` | haproxy container image tag | `2.6.21-alpine`
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
