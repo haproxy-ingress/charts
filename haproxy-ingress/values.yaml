@@ -109,6 +109,10 @@ controller:
   ##
   annotations: {}
 
+  ## Labels to be added to DaemonSet/Deployment definitions
+  ##
+  labels: {}
+
   ## Annotations to be added to controller pods
   ##
   podAnnotations: {}
