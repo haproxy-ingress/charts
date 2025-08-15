@@ -24,6 +24,13 @@ rules:
     verbs:
       - get
   - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - replicasets
+    verbs:
+      - get
+  - apiGroups:
       - ""
     resources:
       - configmaps
