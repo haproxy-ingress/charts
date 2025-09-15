@@ -104,7 +104,7 @@ Parameter | Description | Default
 `controller.name` | name of the controller component | `controller`
 `controller.image.registry` | controller container image registry | `quay.io`
 `controller.image.repository` | controller container image repository | `jcmoraisjr/haproxy-ingress`
-`controller.image.tag` | controller container image tag | `v0.16.0-alpha.1`
+`controller.image.tag` | controller container image tag | `v0.16.0-alpha.2`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`

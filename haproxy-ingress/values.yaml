@@ -28,7 +28,7 @@ controller:
   image:
     registry: quay.io
     repository: jcmoraisjr/haproxy-ingress
-    tag: v0.16.0-alpha.1
+    tag: v0.16.0-alpha.2
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
