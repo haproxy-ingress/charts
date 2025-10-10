@@ -103,7 +103,7 @@ Parameter | Description | Default
 `controller.automountServiceAccountToken` | Automount API credentials to the controller's pod | `true` |
 `controller.name` | name of the controller component | `controller`
 `controller.image.repository` | controller container image repository | `quay.io/jcmoraisjr/haproxy-ingress`
-`controller.image.tag` | controller container image tag | `v0.14.9`
+`controller.image.tag` | controller container image tag | `v0.14.10`
 `controller.image.pullPolicy` | controller container image pullPolicy | `IfNotPresent`
 `controller.imagePullSecrets` | controller image pull secrets | `[]`
 `controller.extraArgs` | extra command line arguments for the haproxy-ingress-controller | `{}`
@@ -122,7 +122,7 @@ Parameter | Description | Default
 `controller.ingressClassResource.parameters` |  | `{}`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`
-`controller.haproxy.image.tag` | haproxy container image tag | `2.4.29-alpine`
+`controller.haproxy.image.tag` | haproxy container image tag | `2.4.30-alpine`
 `controller.haproxy.image.pullPolicy` | haproxy container image pullPolicy | `IfNotPresent`
 `controller.haproxy.extraArgs` | extra command line arguments for haproxy | `{}`
 `controller.haproxy.resources` | haproxy container resource requests & limits | `{}`
