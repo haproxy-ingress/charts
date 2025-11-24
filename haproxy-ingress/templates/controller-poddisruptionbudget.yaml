@@ -1,4 +1,4 @@
-{{- if or (and .Values.controller.minAvailable (gt .Values.controller.replicaCount .Values.controller.minAvailable)) (gt (.Values.controller.maxUnavailable | int) 0) }}
+{{- if or (and .Values.controller.minAvailable (gt .Values.controller.replicaCount .Values.controller.minAvailable)) (ge (.Values.controller.maxUnavailable | int) 0) }}
 {{- if semverCompare ">= 1.21-0" .Capabilities.KubeVersion.Version }}
 apiVersion: policy/v1
 {{- else }}
