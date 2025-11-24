@@ -248,7 +248,10 @@ controller:
 
   # A PodDisruptionBudget is created only if minAvailable is
   # greater than 0 (zero) and lesser than the replicaCount
+  # or if maxUnavailable is set.
+  # If both are set, maxUnavailable takes precedence
   minAvailable: 1
+  #maxUnavailable: 1
 
   resources: {}
   #  limits:
