@@ -1,4 +1,4 @@
-{{- if and .Values.controller.minAvailable (gt .Values.controller.replicaCount .Values.controller.minAvailable) }}
+{{- if or (and .Values.controller.minAvailable (gt .Values.controller.replicaCount .Values.controller.minAvailable)) (ge (.Values.controller.maxUnavailable | int) 0) }}
 {{- if semverCompare ">= 1.21-0" .Capabilities.KubeVersion.Version }}
 apiVersion: policy/v1
 {{- else }}
@@ -14,5 +14,9 @@ spec:
   selector:
     matchLabels:
       {{- include "haproxy-ingress.selectorLabels" . | nindent 6 }}
+  {{- if .Values.controller.maxUnavailable }}
+  maxUnavailable: {{ .Values.controller.maxUnavailable }}
+  {{- else }}
   minAvailable: {{ .Values.controller.minAvailable }}
+  {{- end }}
 {{- end }}
