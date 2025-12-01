@@ -76,12 +76,6 @@ spec:
     {{- if .Values.defaultBackend.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.defaultBackend.podSecurityContext | nindent 8 }}
-    {{- else }}
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65000
-        runAsGroup: 65000
-        fsGroup: 65000
     {{- end }}
     {{- if .Values.defaultBackend.imagePullSecrets }}
       imagePullSecrets:

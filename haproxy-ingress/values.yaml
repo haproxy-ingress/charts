@@ -28,11 +28,15 @@ controller:
   image:
     registry: quay.io
     repository: jcmoraisjr/haproxy-ingress
-    tag: v0.16.0-alpha.2
+    # tag defaults to Chart.AppVersion if not set
+    tag: ""
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
   # - name: secret-name
+
+  ## Override the default container command
+  command: []
 
   ## Additional command line arguments to pass to haproxy-ingress-controller
   ## E.g. to specify the default SSL certificate you can use
@@ -133,14 +137,26 @@ controller:
   ## Security context settings to be added to the controller pods
   ##
   podSecurityContext: {}
-  #  sysctls:
-  #  - name: net.ipv4.ip_local_port_range
-  #    value: "1024 65535"
+    # runAsNonRoot: true
+    # runAsUser: 99
+    # runAsGroup: 99
+    # fsGroup: 99
+    # seccompProfile:
+    #   type: RuntimeDefault
+    # sysctls:
+    # - name: net.ipv4.ip_local_port_range
+    #   value: "1024 65535"
 
   ## Security context settings to be added to the controller containers
   ##
   securityContext: {}
-  #  readOnlyRootFilesystem: true
+    # allowPrivilegeEscalation: false
+    # readOnlyRootFilesystem: true
+    # capabilities:
+    #   drop:
+    #     - ALL
+    #   add:
+    #     - NET_BIND_SERVICE
 
   ## Security context for the init container, when init container is configured
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -152,7 +168,10 @@ controller:
   legacySecurityContext: true
 
   # ConfigMap to configure haproxy ingress
-  config: {}
+  # https://haproxy-ingress.github.io/docs/configuration/keys/
+  config:
+    http-port: "8080"
+    https-port: "8443"
 
   # Custom files to be mounted to the controller(s)
   # if populated a ConfigMap will be created and mounted in the controller pods in /etc/haproxy-custom-files
@@ -209,9 +228,10 @@ controller:
   #  8080: "default/example-tcp-svc:9000"
 
   # default values for http and https containerPorts
+  # Using unprivileged ports (8080/8443) to allow running as non-root user
   containerPorts:
-    http: 80
-    https: 443
+    http: 8080
+    https: 8443
 
   # optionally disable static ports, including the default 80 and 443
   enableStaticPorts: true
@@ -386,6 +406,13 @@ controller:
     ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     ##
     securityContext: {}
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: true
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add:
+      #     - NET_BIND_SERVICE
 
   stats:
     enabled: false
@@ -447,10 +474,15 @@ controller:
     #    cpu: 200m
     #    memory: 400Mi
 
-    ## Container Security Context for the logs container
+    ## Container Security Context for the metrics exporter container
     ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     ##
     securityContext: {}
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: true
+      # capabilities:
+      #   drop:
+      #     - ALL
 
     service:
       annotations: {}
@@ -626,11 +658,20 @@ defaultBackend:
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   ##
   podSecurityContext: {}
+    # runAsNonRoot: true
+    # runAsUser: 65000
+    # runAsGroup: 65000
+    # fsGroup: 65000
 
   ## Container Security Context for the default backend container
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   ##
   securityContext: {}
+    # allowPrivilegeEscalation: false
+    # readOnlyRootFilesystem: true
+    # capabilities:
+    #   drop:
+    #     - ALL
 
   ## Priority Class for the default backend container
   ##

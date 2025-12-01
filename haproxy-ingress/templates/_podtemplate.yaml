@@ -25,7 +25,7 @@ spec:
   initContainers:
 {{- if .Values.controller.haproxy.enabled }}
     - name: haproxy-ingress-init
-      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
       args:
         - --init
@@ -37,8 +37,9 @@ spec:
           cpu: 10m
           memory: 32Mi
       volumeMounts:
-        - mountPath: /etc/haproxy
-          name: etc
+        - name: haproxy-data
+          mountPath: /etc/haproxy
+          subPath: etc
 {{- if .Values.controller.securityContextInitContainer }}
       securityContext:
         {{- toYaml .Values.controller.securityContextInitContainer | nindent 8 }}
@@ -50,8 +51,12 @@ spec:
 {{- end }}
   containers:
     - name: haproxy-ingress
-      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+      image: "{{ .Values.controller.image.registry }}/{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
       imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
+{{- if .Values.controller.command }}
+      command:
+        {{- toYaml .Values.controller.command | nindent 8 }}
+{{- end }}
       args:
         - --configmap={{ .Release.Namespace }}/{{ include "haproxy-ingress.fullname" . }}
         - --ingress-class={{ .Values.controller.ingressClass }}
@@ -104,27 +109,26 @@ spec:
 {{- if .Values.controller.extraEnvs }}
         {{- toYaml .Values.controller.extraEnvs | nindent 8 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumeMounts .Values.controller.customFiles }}
       volumeMounts:
-{{- if .Values.controller.haproxy.enabled }}
-        - mountPath: /etc/haproxy
-          name: etc
-        - mountPath: /var/lib/haproxy
-          name: lib
-        - mountPath: /var/run/haproxy
-          name: run
-{{- end }}
+        - name: haproxy-data
+          mountPath: /etc/haproxy
+          subPath: etc
+        - name: haproxy-data
+          mountPath: /var/lib/haproxy
+          subPath: lib
+        - name: haproxy-data
+          mountPath: /var/run/haproxy
+          subPath: run
 {{- if or .Values.controller.template .Values.controller.templateFile }}
         - name: haproxy-template
           mountPath: /etc/templates/haproxy
 {{- end }}
-{{- if and .Values.controller.customFiles (not .Values.controller.haproxy.enabled) }}
+{{- if .Values.controller.customFiles }}
         - name: haproxy-custom-files
           mountPath: /etc/haproxy-custom-files
 {{- end }}
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
-{{- end }}
 {{- end }}
       resources:
         {{- toYaml .Values.controller.resources | nindent 8 }}
@@ -159,12 +163,15 @@ spec:
       resources:
         {{- toYaml .Values.controller.haproxy.resources | nindent 8 }}
       volumeMounts:
-        - mountPath: /etc/haproxy
-          name: etc
-        - mountPath: /var/lib/haproxy
-          name: lib
-        - mountPath: /var/run/haproxy
-          name: run
+        - name: haproxy-data
+          mountPath: /etc/haproxy
+          subPath: etc
+        - name: haproxy-data
+          mountPath: /var/lib/haproxy
+          subPath: lib
+        - name: haproxy-data
+          mountPath: /var/run/haproxy
+          subPath: run
 {{- if .Values.controller.customFiles }}
         - name: haproxy-custom-files
           mountPath: /etc/haproxy-custom-files
@@ -201,8 +208,11 @@ spec:
         initialDelaySeconds: 15
         periodSeconds: 20
 {{- end }}
-{{- if .Values.controller.logs.extraVolumeMounts }}
       volumeMounts:
+        - name: haproxy-data
+          mountPath: /run
+          subPath: logs-run
+{{- if .Values.controller.logs.extraVolumeMounts }}
         {{- toYaml .Values.controller.logs.extraVolumeMounts | nindent 8 }}
 {{- end }}
       resources:
@@ -252,16 +262,9 @@ spec:
   imagePullSecrets:
     {{- toYaml .Values.controller.imagePullSecrets | nindent 4 }}
 {{- end }}
-{{- if or .Values.controller.haproxy.enabled .Values.controller.template .Values.controller.templateFile .Values.controller.extraVolumes .Values.controller.customFiles }}
   volumes:
-{{- if .Values.controller.haproxy.enabled }}
-    - name: etc
+    - name: haproxy-data
       emptyDir: {}
-    - name: lib
-      emptyDir: {}
-    - name: run
-      emptyDir: {}
-{{- end }}
 {{- if or .Values.controller.template .Values.controller.templateFile }}
     - name: haproxy-template
       configMap:
@@ -274,7 +277,6 @@ spec:
 {{- end }}
 {{- if .Values.controller.extraVolumes }}
     {{- toYaml .Values.controller.extraVolumes | nindent 4 }}
-{{- end }}
 {{- end }}
   terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
 {{- if .Values.controller.topologySpreadConstraints }}
