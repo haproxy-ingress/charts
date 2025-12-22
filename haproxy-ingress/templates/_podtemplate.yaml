@@ -362,6 +362,13 @@ spec:
     {{- end }}
   {{- end }}
 {{- end }}
+{{- if $.Values.controller.daemonset.useHostPort }}
+{{- range $row := .Values.controller.daemonset.extraHostPorts }}
+- name: "extra-port-{{ $row.port }}"
+  containerPort: {{ $row.containerPort }}
+  hostPort: {{ $row.hostPort }}
+{{- end }}
+{{- end }}
 {{- end }}
 
 {{- define "haproxy-ingress.controller.probes" }}
