@@ -1,4 +1,6 @@
+{{- if .Values.controller.service.enabled }}
 {{- include "haproxy-ingress.controller.services" (dict "root" . "svc" .Values.controller.service "default" .Values.controller.service "name" (include "haproxy-ingress.fullname" .)) }}
+{{- end }}
 
 {{- range $i, $svc := .Values.controller.extraServices }}
 ---
