@@ -302,6 +302,7 @@ controller:
     pathOverride: ""
 
   service:
+    enabled: true
     annotations: {}
     labels: {}
     clusterIP: ""
