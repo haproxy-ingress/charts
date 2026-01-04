@@ -191,6 +191,7 @@ Parameter | Description | Default
 `controller.nodeSelector` | to control scheduling | `{}`
 `controller.publishService.enabled` | Enable 'publishService' or not, ignored if controller.extraArgs.publish-service is set | `false`
 `controller.publishService.pathOverride` | Allows overriding of the publish service to bind to, ignored if controller.extraArgs.publish-service is set | `""`
+`controller.service.enabled` | toggle controller service | `true`
 `controller.service.annotations` | annotations for controller service | `{}`
 `controller.service.labels` | labels for controller service | `{}`
 `controller.service.clusterIP` | internal controller cluster service IP | `nil`
