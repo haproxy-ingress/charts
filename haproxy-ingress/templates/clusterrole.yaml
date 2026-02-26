@@ -62,6 +62,7 @@ rules:
       - tcproutes
       - udproutes
       - backendpolicies
+      - referencegrants
     verbs:
       - get
       - list
