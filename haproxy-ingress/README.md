@@ -172,6 +172,7 @@ Parameter | Description | Default
 `controller.daemonset.hostPorts.http` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for http | `"80"`
 `controller.daemonset.hostPorts.https` | If `controller.daemonset.useHostPort` is `true` and this is non-empty sets the hostPort for https | `"443"`
 `controller.daemonset.hostPorts.tcp` | If `controller.daemonset.useHostPort` is `true` use hostport for these ports from `tcp` | `[]`
+`controller.daemonset.extraHostPorts` | If `controller.daemonset.useHostPort` is `true` configure additional host ports mapping. Each entry should specify `containerPort`, `hostPort` and optional `hostIP` | `[]`
 `controller.updateStrategy` | the update strategy settings | _see defaults below_
 `controller.updateStrategy.type` | the update strategy type to use | `RollingUpdate`
 `controller.updateStrategy.rollingUpdate.maxUnavailable` | the max number of unavailable controllers when doing rolling updates | `1`
