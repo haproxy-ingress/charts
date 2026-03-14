@@ -362,6 +362,19 @@ spec:
     {{- end }}
   {{- end }}
 {{- end }}
+{{- if eq $.Values.controller.kind "DaemonSet" }}
+  {{- if $.Values.controller.daemonset.useHostPort }}
+    {{- range $row := .Values.controller.daemonset.extraHostPorts }}
+- name: "{{ $row.hostPort }}-extra"
+  containerPort: {{ $row.containerPort }}
+      {{- if $row.hostIP }}
+  hostIP: {{ $row.hostIP }}
+      {{- end }}
+  hostPort: {{ $row.hostPort }}
+  protocol: TCP
+    {{- end }}
+  {{- end }}
+{{- end }}
 {{- end }}
 
 {{- define "haproxy-ingress.controller.probes" }}
