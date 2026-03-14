@@ -121,6 +121,7 @@ Parameter | Description | Default
 `controller.ingressClassResource.default` | mark the IngressClass as [default](https://kubernetes.io/docs/concepts/services-networking/ingress/#default-ingress-class) for the cluster | `false`
 `controller.ingressClassResource.controllerClass` | customizes the [controller name](https://haproxy-ingress.github.io/docs/configuration/command-line/#ingress-class) | `''`
 `controller.ingressClassResource.parameters` |  | `{}`
+`controller.gatewayClassResource.enabled` | create a [GatewayClass](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/) resource for this controller | `false`
 `controller.haproxy.enabled` | set `true` to configure haproxy as a sidecar instead of use the embedded version | `false`
 `controller.haproxy.image.registry` | haproxy container image registry, when enabled | `docker.io`
 `controller.haproxy.image.repository` | haproxy container image repository, when enabled | `haproxy`

@@ -75,14 +75,21 @@ controller:
   ##
   ingressClass: haproxy
 
-  ## IngressClass resource for this controller
-  ## Uses ingressClass as name for the IngressClass
+  ## Configures IngressClass resource for this controller
+  ## Uses controller.ingressClass value as the name of the resource
   ##
   ingressClassResource:
     enabled: false
     default: false
     controllerClass: ""
     parameters: {}
+
+  ## Configures GatewayClass resource for this controller
+  ## Uses controller.ingressClass value as the name of the resource
+  ## TODO: missing a custom controllerClass, currently HAProxy Ingress has one single --controller-class for both Ingress and Gateway APIs
+  ##
+  gatewayClassResource:
+    enabled: false
 
   healthzPort: 10253
 
