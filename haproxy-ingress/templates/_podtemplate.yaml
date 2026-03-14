@@ -362,16 +362,18 @@ spec:
     {{- end }}
   {{- end }}
 {{- end }}
-
 {{- if eq $.Values.controller.kind "DaemonSet" }}
-{{- if $.Values.controller.daemonset.useHostPort }}
-{{- range $row := .Values.controller.daemonset.extraHostPorts }}
-- name: "extra-port-{{ $row.port }}"
+  {{- if $.Values.controller.daemonset.useHostPort }}
+    {{- range $row := .Values.controller.daemonset.extraHostPorts }}
+- name: "{{ $row.hostPort }}-extra"
   containerPort: {{ $row.containerPort }}
-  protocol: TCP
+      {{- if $row.hostIP }}
+  hostIP: {{ $row.hostIP }}
+      {{- end }}
   hostPort: {{ $row.hostPort }}
-{{- end }}
-{{- end }}
+  protocol: TCP
+    {{- end }}
+  {{- end }}
 {{- end }}
 {{- end }}
 
