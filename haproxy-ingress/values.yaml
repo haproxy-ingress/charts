@@ -276,8 +276,58 @@ controller:
     #  targetMemoryUtilizationPercentage: 50
     customMetrics: []
     # Enable using external HPA by removing number of replicas
-    # from the Controller deployment, but not deplying the HPA object   
+    # from the Controller deployment, but not deplying the HPA object
     useExternalHPA: false
+
+  ## VerticalPodAutoscaler configuration
+  ## Ref: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
+  ## Ref: https://kubernetes.io/docs/concepts/workloads/autoscaling/vertical-pod-autoscale/
+  ##
+  ## XXX Requires the VPA CRD and controller to be installed in the cluster.
+  ## See: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#installation
+  ##
+  vpa:
+    enabled: false
+    annotations: {}
+    ## updatePolicy controls how the autoscaler applies resource recommendation changes
+    ## updateMode defaults to "Off" (recommendation-only, no pod mutations).
+    updatePolicy:
+      updateMode: "Off"
+    #   updateMode: "Recreate"  # "Off", "Initial", "Recreate", "InPlaceOrRecreate" ("Auto" is deprecated)
+    #   minReplicas: 2
+    #   evictionRequirements:
+    #     - resources: ["cpu", "memory"]
+    #       changeRequirement: TargetHigherThanRequests
+    ## resourcePolicy controls per-container resource recommendation constraints
+    resourcePolicy: {}
+    #   containerPolicies:
+    #     - containerName: haproxy-ingress
+    #       minAllowed:
+    #         cpu: 100m
+    #         memory: 128Mi
+    #       maxAllowed:
+    #         cpu: "2"
+    #         memory: 2Gi
+    #       controlledResources: ["cpu", "memory"]
+    #       controlledValues: RequestsAndLimits  # or RequestsOnly
+    #     - containerName: haproxy
+    #       minAllowed:
+    #         cpu: 100m
+    #         memory: 128Mi
+    #       maxAllowed:
+    #         cpu: "2"
+    #         memory: 2Gi
+    #       controlledResources: ["cpu", "memory"]
+    #       controlledValues: RequestsAndLimits
+    ## recommenders allows specifying a custom VPA recommender
+    recommenders: []
+    #   - name: custom-recommender
+    ## startupBoost specifies a CPU startup boost policy for the pod
+    startupBoost: {}
+    #   cpu:
+    #     type: Factor
+    #     factor: 3
+    #     durationSeconds: 120
 
   ## Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
@@ -335,11 +385,11 @@ controller:
     httpPorts:
       - port: 80
         targetPort: http
-      # nodePort:
+        # nodePort:
     httpsPorts:
       - port: 443
         targetPort: https
-      # nodePort:
+        # nodePort:
 
     ## Add extra ports to the service
     ## Useful when adding the 'tcp-service-port' configuration key

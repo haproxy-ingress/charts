@@ -1,0 +1,40 @@
+{{- if .Values.controller.vpa.enabled -}}
+{{- if not (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1/VerticalPodAutoscaler") }}
+  {{- fail "controller.vpa.enabled requires the VerticalPodAutoscaler CRD (autoscaling.k8s.io/v1). Install the VPA CRDs before enabling this feature: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#installation" }}
+{{- end }}
+{{- if and .Values.controller.autoscaling.enabled (ne (.Values.controller.vpa.updatePolicy.updateMode | default "Recreate") "Off") }}
+  {{- fail "controller.vpa with updateMode != 'Off' must not be used together with controller.autoscaling (HPA). Set controller.vpa.updatePolicy.updateMode to 'Off' to use VPA for recommendations only, or disable the HPA." }}
+{{- end }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  {{- with .Values.controller.vpa.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "haproxy-ingress.labels" . | nindent 4 }}
+  name: {{ include "haproxy-ingress.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: {{ .Values.controller.kind }}
+    name: {{ include "haproxy-ingress.fullname" . }}
+  {{- with .Values.controller.vpa.updatePolicy }}
+  updatePolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.controller.vpa.resourcePolicy }}
+  resourcePolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.controller.vpa.recommenders }}
+  recommenders:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.controller.vpa.startupBoost }}
+  startupBoost:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
