@@ -19,7 +19,7 @@ spec:
 {{- end }}
   serviceAccountName: {{ include "haproxy-ingress.serviceAccountName" . }}
 {{- if semverCompare ">= 1.22-0" .Capabilities.KubeVersion.Version }}
-  automountServiceAccountToken: {{ .Values.controller.automountServiceAccountToken }}
+  automountServiceAccountToken: false
 {{- end }}
 {{- if or .Values.controller.haproxy.enabled .Values.controller.initContainers }}
   initContainers:
@@ -122,6 +122,11 @@ spec:
 {{- if and .Values.controller.customFiles (not .Values.controller.haproxy.enabled) }}
         - name: haproxy-custom-files
           mountPath: /etc/haproxy-custom-files
+{{- end }}
+{{- if and (semverCompare ">= 1.22-0" .Capabilities.KubeVersion.Version) .Values.controller.automountServiceAccountToken }}
+        - name: kube-api-access
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
 {{- end }}
 {{- if .Values.controller.extraVolumeMounts }}
         {{- toYaml .Values.controller.extraVolumeMounts | nindent 8 }}
@@ -258,6 +263,25 @@ spec:
   volumes:
     - name: scratch
       emptyDir: {}
+{{- if and (semverCompare ">= 1.22-0" .Capabilities.KubeVersion.Version) .Values.controller.automountServiceAccountToken }}
+    - name: kube-api-access
+      projected:
+        defaultMode: 0644
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3600
+            path: token
+        - configMap:
+            name: kube-root-ca.crt
+            items:
+            - key: ca.crt
+              path: ca.crt
+        - downwardAPI:
+            items:
+            - path: namespace
+              fieldRef:
+                fieldPath: metadata.namespace
+{{- end }}
 {{- if or .Values.controller.template .Values.controller.templateFile }}
     - name: haproxy-template
       configMap:
