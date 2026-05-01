@@ -163,7 +163,10 @@ controller:
   #  hello_again.lua: |
   #    core.Debug("Hello again HAProxy!\n")
 
-  # Automount API credentials to the controller's pod
+  # Automount API credentials to the controller's pod.
+  # Note: this option does not use automountServiceAccountToken in the Pod spec, which is always configured as false.
+  # When true: ServiceAccount token is manually mounted only in the controller container, sidecars are excluded.
+  # When false: ServiceAccount token is not mounted to any container, out-of-cluster authentication should be used.
   automountServiceAccountToken: true
 
   # Required for use with CNI based kubernetes installations (such as ones set up by kubeadm),
