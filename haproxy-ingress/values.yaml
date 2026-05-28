@@ -612,7 +612,9 @@ controller:
     ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     ##
     securityContext: {}
-
+    
+    # If lifecycle is added to the haproxy container, it can be useful to also configure it here to ensure the syslog container is not killed before haproxy when the pod is terminating, allowing it to flush the logs properly.
+    lifecycle: {}
     # port used by syslog container
     port: 514
 
